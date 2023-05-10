@@ -35,16 +35,16 @@ def generate_beat_list(data):
     return beat_list
 
 
-def generate_output_list(beat_list, song_data):
+def generate_output_list(list, data):
     output_list = []
 
     last_time = 0
-    for i, beat in enumerate(beat_list):
+    for i, beat in enumerate(list):
         if beat is None:
             continue
 
         sec = mido.tick2second(
-            i, song_data['ticks_per_beat'], song_data['tempo'])
+            i, data['ticks_per_beat'], data['tempo'])
         if len(output_list) > 0:
             output_list[-1] += [f'{sec-last_time:.4f}']
 
