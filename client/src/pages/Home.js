@@ -16,7 +16,7 @@ const Home = () => {
       </section>
 
       <section className="container py-5">
-        <h2 className="mb-4">About</h2>
+        <h2 className="mb-4">Output</h2>
         <p>{response}</p>
       </section>
 

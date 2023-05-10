@@ -1,3 +1,5 @@
+// https://www.npmjs.com/package/@dropzone-ui/react
+
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import * as React from "react";
 
