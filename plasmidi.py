@@ -7,8 +7,7 @@ midi = mido.MidiFile(sys.argv[1])
 
 
 data = {
-    "export_tracks": [int(
-        i) for i in sys.argv[2:]],
+    "export_tracks": [int(i) for i in sys.argv[2:]],
     "ticks_per_beat": midi.ticks_per_beat,
     "tempo": find_meta(midi, 'set_tempo').tempo,
     "track_end": get_total_ticks(midi),
