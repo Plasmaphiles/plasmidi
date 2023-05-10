@@ -17,16 +17,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-app.get("/api/process", (req, res) => {
-  exec("python3 test.py", (error, stdout, stderr) => {
+// const pythonCommand = "python3 test.py"
+const pythonCommand = "python3 ../plasmidi.py ../midi/Simple-Scale.mid 1";
+
+app.post("/api/process", (req, res) => {
+  exec(pythonCommand, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing Python script: ${error}`);
       return res
         .status(500)
         .send("An error occurred while running the Python script.");
     }
-
-    console.log(`Python script output: ${stdout}`);
 
     res.send({
       msg: `Python script executed successfully with output: ${stdout}`,

@@ -20,7 +20,10 @@ const FileDrop = ({ setResponse }) => {
   const process = () => {
     if (files.length) {
       console.log("hitting endpoint...");
-      fetch("/api/process")
+      fetch("/api/process", {
+        method: "POST",
+        files: files[0],
+      })
         .then(res => res.json())
         .then(data => setResponse(data.msg));
     }
