@@ -4,6 +4,8 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+const { exec } = require("child_process");
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -16,7 +18,20 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/process", (req, res) => {
-  res.send({ msg: "Processed Python Output" });
+  exec("python3 test.py", (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing Python script: ${error}`);
+      return res
+        .status(500)
+        .send("An error occurred while running the Python script.");
+    }
+
+    console.log(`Python script output: ${stdout}`);
+
+    res.send({
+      msg: `Python script executed successfully with output: ${stdout}`,
+    });
+  });
 });
 
 app.listen(PORT, () => {
