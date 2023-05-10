@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-// const pythonCommand = "python3 test.py"
 const pythonCommand = "python3 ../plasmidi.py ../midi/Simple-Scale.mid 1";
 
 app.post("/api/process", (req, res) => {
