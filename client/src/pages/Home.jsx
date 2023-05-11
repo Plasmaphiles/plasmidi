@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import FileDrop from "../components/FileDrop";
-import { downloadFile } from "../helpers/files";
 import CopyablePreview from "../components/CopyablePreview";
 import Header from "../components/Header";
 import Section from "../components/Section";
+import download from "downloadjs";
+
+const downloadFile = async () => {
+  const res = await fetch("/api/download");
+  const blob = await res.blob();
+  download(blob, "plasmidi.zip");
+};
 
 const Home = () => {
   const [response, setResponse] = useState("");

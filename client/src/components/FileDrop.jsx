@@ -2,7 +2,18 @@
 
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import * as React from "react";
-import { sendFile } from "../helpers/files";
+
+const sendFile = file => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const fetchOptions = {
+    method: "POST",
+    body: formData,
+  };
+
+  return fetch("/api/process", fetchOptions).then(res => res.json());
+};
 
 const FileDrop = ({ setResponse }) => {
   const [files, setFiles] = React.useState([]);
