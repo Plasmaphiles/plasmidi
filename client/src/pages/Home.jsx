@@ -14,6 +14,19 @@ const Section = ({ title, children }) => (
   </section>
 );
 
+const CopyablePreview = ({ text }) => (
+  <>
+    <p style={{ display: "inline", paddingRight: "30px" }}>
+      {text.substring(0, 40)}...
+    </p>
+    <button
+      className="btn btn-secondary"
+      onClick={() => navigator.clipboard.writeText(text)}>
+      Copy to Clipboard
+    </button>
+  </>
+);
+
 const Home = () => {
   const [response, setResponse] = useState("");
 
@@ -26,7 +39,7 @@ const Home = () => {
       </Section>
 
       <Section title="Output">
-        <p>{response}</p>
+        <CopyablePreview text={response} />
       </Section>
 
       <Section title="About">
