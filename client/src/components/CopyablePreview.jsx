@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { previewText } from "../helpers/files";
+
+const previewText = (text, limit = 30) => {
+  if (text[limit - 1] === '"') text = `${text.substring(0, limit)}, ... ]`;
+  else text = `${text.substring(0, limit - 4)}...", ... ]`;
+
+  return text;
+};
 
 const CopyablePreview = ({ text }) => {
   const [copied, setCopied] = useState(false);
