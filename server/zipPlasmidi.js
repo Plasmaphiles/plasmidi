@@ -4,22 +4,14 @@ const archiver = require("archiver");
 try {
   fs.unlinkSync("plasmidi.zip");
 } catch (err) {
-  // File doesn't exist, that's fine
+  if (err.code !== "ENOENT") throw err; // File not found is okay
 }
 
-const sourceFolder = "./scripts";
-const zipFileName = "plasmidi.zip";
-
-const output = fs.createWriteStream(zipFileName);
-const archive = archiver("zip", {
-  zlib: { level: 9 }, // Set compression level (optional)
-});
+const output = fs.createWriteStream("plasmidi.zip");
+const archive = archiver("zip");
 
 archive.pipe(output);
-
-archive.directory(sourceFolder, false);
-
+archive.directory("./scripts", false);
 archive.finalize();
-output.on("close", () => {
-  console.log("ZIP file created successfully.");
-});
+
+output.on("close", () => console.log("ZIP file created successfully."));

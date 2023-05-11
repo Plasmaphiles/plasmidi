@@ -18,9 +18,7 @@ const runScript = (script, cb, ...args) =>
   exec(`python3 ${script} ${args.join(" ")}`, cb);
 
 const deleteFileCB = file => () =>
-  fs.unlink(file, err => {
-    if (err) console.error(`Error deleting file: ${err}`);
-  });
+  fs.unlink(file, err => (err ? console.error(err) : null));
 
 const processFile = (res, path) => {
   runScript(

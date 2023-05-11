@@ -25,8 +25,8 @@ app.post("/api/process", upload.single("file"), (req, res) => {
   processFile(res, `uploads/${req.file.filename}`);
 });
 
-// Express route for file download
-app.get("/api/download", (req, res) => {
+// Get the plasmidi.zip file for download
+app.get("/api/download", (_req, res) => {
   res.status(200).download(`${__dirname}/plasmidi.zip`);
 });
 

@@ -2,7 +2,7 @@
 
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import * as React from "react";
-import { sendFile } from "../helpers/sendFile";
+import { sendFile } from "../helpers/files";
 
 const FileDrop = ({ setResponse }) => {
   const [files, setFiles] = React.useState([]);

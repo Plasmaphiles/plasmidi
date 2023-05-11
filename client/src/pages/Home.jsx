@@ -1,55 +1,12 @@
 import React, { useState } from "react";
 import FileDrop from "../components/FileDrop";
-import download from "downloadjs";
-
-const previewText = (text, limit = 30) => {
-  if (text[limit - 1] === '"') text = `${text.substring(0, limit)}, ... ]`;
-  else text = `${text.substring(0, limit - 4)}...", ... ]`;
-
-  return text;
-};
-
-const Header = ({ title }) => (
-  <header className="bg-primary text-light text-center py-5">
-    <h1>{title}</h1>
-  </header>
-);
-
-const Section = ({ title, children }) => (
-  <section className="container py-5">
-    <h2 className="mb-4">{title}</h2>
-    {children}
-  </section>
-);
-
-const CopyablePreview = ({ text }) => {
-  const [copied, setCopied] = useState(false);
-
-  const copyText = text => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-  };
-
-  return (
-    <>
-      <code style={{ display: "inline", paddingRight: "30px" }}>
-        {previewText(text)}
-      </code>
-      <button className="btn btn-secondary" onClick={() => copyText(text)}>
-        {copied ? "Copied!" : "Copy to Clipboard"}
-      </button>
-    </>
-  );
-};
+import { downloadFile } from "../helpers/files";
+import CopyablePreview from "../components/CopyablePreview";
+import Header from "../components/Header";
+import Section from "../components/Section";
 
 const Home = () => {
   const [response, setResponse] = useState("");
-
-  const downloadFile = async () => {
-    const res = await fetch("/api/download");
-    const blob = await res.blob();
-    download(blob, "plasmidi.zip");
-  };
 
   return (
     <div>
