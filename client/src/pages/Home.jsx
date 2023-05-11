@@ -43,7 +43,9 @@ const Home = () => {
           Plasma-usable text. We did this so users could also download the
           Python file to use locally! Here is that file.
         </p>
-        <button onClick={downloadFile}>Download</button>
+        <button className="btn btn-secondary" onClick={downloadFile}>
+          Download
+        </button>
       </Section>
 
       <Section title="About">
