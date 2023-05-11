@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 import Upload from "./sections/Upload";
+import Download from "./sections/Download";
 import Output from "./sections/Output";
 import HowToUse from "./sections/HowToUse";
 import About from "./sections/About";
@@ -18,6 +19,7 @@ const Home = () => {
 
       <Upload setResponse={setResponse} />
       <Output response={response} />
+      <Download />
       <HowToUse />
       <About />
       <Samples />
