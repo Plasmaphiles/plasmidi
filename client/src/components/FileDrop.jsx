@@ -12,9 +12,14 @@ const FileDrop = ({ setResponse }) => {
   const process = () => {
     if (!files.length) return;
 
+    const formData = new FormData();
+    formData.append("file", files[0].file);
+
+    console.log(files[0]);
+
     const fetchOptions = {
       method: "POST",
-      files: files[0],
+      body: formData,
     };
 
     console.log("hitting endpoint...");

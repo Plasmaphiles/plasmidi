@@ -2,7 +2,12 @@ const express = require("express");
 const path = require("path");
 
 const PORT = process.env.PORT || 3001;
+
 const app = express();
+
+const fs = require("fs");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const { exec } = require("child_process");
 
@@ -19,10 +24,13 @@ app.get("/", (_req, res) => {
 });
 
 // Process the MIDI file using plasmidi.py and return the result
-app.post("/api/process", (req, res) => {
-  const command = "python3 ../plasmidi.py ../midi/Simple-Scale.mid 1";
+app.post("/api/process", upload.single("file"), (req, res) => {
+  console.log("file", req.file);
+  console.log("fileName", req.file.filename);
 
-  exec(command, (error, stdout, stderr) => {
+  const command = `python3 ../plasmidi.py uploads/${req.file.filename}`;
+
+  exec(command, (error, stdout, _stderr) => {
     if (error) {
       console.error(`Error executing Python script: ${error}`);
       return res
@@ -32,6 +40,10 @@ app.post("/api/process", (req, res) => {
 
     res.send({
       msg: `Python script executed successfully with output: ${stdout}`,
+    });
+
+    fs.unlink(`uploads/${req.file.filename}`, err => {
+      if (err) console.error(`Error deleting file: ${err}`);
     });
   });
 });
