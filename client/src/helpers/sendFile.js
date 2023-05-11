@@ -8,7 +8,6 @@ const sendFile = file => {
   };
 
   return fetch("/api/process", fetchOptions).then(res => {
-    if (res.includes("error")) return console.error(res);
     res.json();
   });
 };
