@@ -1,9 +1,9 @@
 import Section from "../../components/Section";
 
-import Waterloo from "../midi/Waterloo.mid";
-import WaterlooMulti from "../midi/Waterloo-Multi.mid";
-import SimpleScale from "../midi/Simple-Scale.mid";
-import Surprise from "../midi/Surprise.mid";
+import Waterloo from "../../midi/Waterloo.mid";
+import WaterlooMulti from "../../midi/Waterloo-Multi.mid";
+import SimpleScale from "../../midi/Simple-Scale.mid";
+import Surprise from "../../midi/Surprise.mid";
 
 const DownloadButton = ({ file, filename }) => {
   return (

@@ -7,6 +7,7 @@ import Upload from "./sections/Upload";
 import Output from "./sections/Output";
 import HowToUse from "./sections/HowToUse";
 import About from "./sections/About";
+import Samples from "./sections/Samples";
 
 const Home = () => {
   const [response, setResponse] = useState("");
@@ -19,6 +20,7 @@ const Home = () => {
       <Output response={response} />
       <HowToUse />
       <About />
+      <Samples />
 
       <Footer text="made by Leonardo1123 & SenorCluckens" />
     </div>
