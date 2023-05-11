@@ -13,14 +13,16 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
-app.get("/", (req, res) => {
+// Home page render
+app.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-const pythonCommand = "python3 ../plasmidi.py ../midi/Simple-Scale.mid 1";
-
+// Process the MIDI file using plasmidi.py and return the result
 app.post("/api/process", (req, res) => {
-  exec(pythonCommand, (error, stdout, stderr) => {
+  const command = "python3 ../plasmidi.py ../midi/Simple-Scale.mid 1";
+
+  exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing Python script: ${error}`);
       return res
@@ -34,6 +36,4 @@ app.post("/api/process", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Now listening on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));

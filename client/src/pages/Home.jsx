@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import FileDrop from "../components/DragDrop";
+import FileDrop from "../components/FileDrop";
+
+const Header = ({ title }) => (
+  <header className="bg-primary text-light text-center py-5">
+    <h1>{title}</h1>
+  </header>
+);
 
 const Section = ({ title, children }) => (
   <section className="container py-5">
@@ -13,9 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <header className="bg-primary text-light text-center py-5">
-        <h1>plasMIDI</h1>
-      </header>
+      <Header title="plasMIDI" />
 
       <Section title="File Upload">
         <FileDrop setResponse={setResponse} />
