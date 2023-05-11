@@ -88,7 +88,6 @@ class Song:
 			for note in track['notes']:
 				if note.start not in events:
 					events[note.start] = [None] * len(self.tracks)
-					print(events[note.start])
 				events[note.start][track_number] = note
 
 		triggers = []
