@@ -39,7 +39,7 @@ const Home = () => {
       </Section>
 
       <Section title="Output">
-        <CopyablePreview text={response} />
+        {response && <CopyablePreview text={response} />}
       </Section>
 
       <Section title="About">

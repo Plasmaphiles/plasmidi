@@ -22,11 +22,14 @@ const deleteFileCB = file => () =>
     if (err) console.error(`Error deleting file: ${err}`);
   });
 
-const processFile = (res, path) =>
+const processFile = (res, path) => {
   runScript(
-    "/app/server/scripts/plasmidi.py",
+    process.env.NODE_ENV
+      ? "/app/server/scripts/plasmidi.py"
+      : "../server/scripts/plasmidi.py",
     sendResult(res, deleteFileCB(path)),
     path
   );
+};
 
 module.exports = { processFile };
