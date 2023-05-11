@@ -28,7 +28,13 @@ const Home = () => {
       </Section>
 
       <Section title="How to Use">
-        <p>Instructions go here.</p>
+        <p>
+          Upload a MIDI file and click the "Process file" button. After that,
+          some text will appear in the output section. It will likely be
+          shortened, as there tends to be a lot of text in the output, so click
+          on the Copy to Clipboard button and then you can return to Plasma to
+          paste that text into our music-playing device.
+        </p>
       </Section>
 
       <Section title="Download">
@@ -42,10 +48,26 @@ const Home = () => {
 
       <Section title="About">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-          voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-          fugiat iusto fuga praesentium optio, eaque rerum!
+          Plasma is an engineering sandbox game where you can create your own
+          devices and worlds. Recently,they added the ability for you to create
+          a variety of sounds large enough to be able to play real music in
+          Plasma.
+        </p>
+        <p>
+          Plasma, being an open sandbox, is not geared directly towards music
+          creation, and even with this great new functionality, it would still
+          be difficult to hand-transcibe music into a form workable in Plasma.
+        </p>
+        <p>
+          That's where we come in. We made this tool to allow you to upload any
+          MIDI file and get a text representation of the music in a formatted
+          text format that's able to be further worked with in Plasma.
+        </p>
+        <p>
+          In order to easily use this text format for music production, we've
+          made our own device that is designed to play notes when given text in
+          this format. You can find it by searching for it by ID in the Device
+          Broswer window of Plasma. <b>ID: 112358132134</b>
         </p>
       </Section>
 
