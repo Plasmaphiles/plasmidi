@@ -23,6 +23,10 @@ const deleteFileCB = file => () =>
   });
 
 const processFile = (res, path) =>
-  runScript("/app/plasmidi.py", sendResult(res, deleteFileCB(path)), path);
+  runScript(
+    "/app/server/scripts/plasmidi.py",
+    sendResult(res, deleteFileCB(path)),
+    path
+  );
 
 module.exports = { processFile };
