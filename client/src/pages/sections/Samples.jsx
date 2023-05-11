@@ -6,6 +6,7 @@ import SimpleScale from "../../midi/Simple-Scale.mid";
 import Surprise from "../../midi/Surprise.mid";
 
 const DownloadButton = ({ file, filename }) => (
+  // FIXME: Links extend all the way to the end of the page
   <a
     href={file}
     download={filename}
