@@ -2,6 +2,7 @@
 
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import * as React from "react";
+import { sendFile } from "../helpers/sendFile";
 
 const FileDrop = ({ setResponse }) => {
   const [files, setFiles] = React.useState([]);
@@ -10,23 +11,8 @@ const FileDrop = ({ setResponse }) => {
 
   // Send the MIDI file to the server to be parsed by the Python and returned
   const process = () => {
-    if (!files.length) return;
-
-    const formData = new FormData();
-    formData.append("file", files[0].file);
-
-    console.log(files[0]);
-
-    const fetchOptions = {
-      method: "POST",
-      body: formData,
-    };
-
-    console.log("hitting endpoint...");
-
-    fetch("/api/process", fetchOptions)
-      .then(res => res.json())
-      .then(data => setResponse(data.msg));
+    if (files.length)
+      sendFile(files[0].file).then(data => setResponse(data.msg));
   };
 
   const SubmitButton = () => (
