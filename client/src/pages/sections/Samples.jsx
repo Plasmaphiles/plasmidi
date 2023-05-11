@@ -7,7 +7,10 @@ import Surprise from "../../midi/Surprise.mid";
 
 const DownloadButton = ({ file, filename }) => {
   return (
-    <a href={file} download={filename} style={{ paddingLeft: "10px" }}>
+    <a
+      href={file}
+      download={filename}
+      style={{ paddingLeft: "10px", paddingBottom: "10px" }}>
       <button className="btn btn-secondary">{filename}</button>
     </a>
   );
