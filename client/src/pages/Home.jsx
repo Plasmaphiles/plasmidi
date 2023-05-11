@@ -4,6 +4,7 @@ import CopyablePreview from "../components/CopyablePreview";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import download from "downloadjs";
+import Footer from "../components/Footer";
 
 const downloadFile = async () => {
   const res = await fetch("/api/download");
@@ -47,6 +48,8 @@ const Home = () => {
           fugiat iusto fuga praesentium optio, eaque rerum!
         </p>
       </Section>
+
+      <Footer text="made by Leonardo1123 & SenorCluckens" />
     </div>
   );
 };
