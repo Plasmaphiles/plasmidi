@@ -7,9 +7,7 @@ const sendFile = file => {
     body: formData,
   };
 
-  return fetch("/api/process", fetchOptions).then(res => {
-    res.json();
-  });
+  return fetch("/api/process", fetchOptions).then(res => res.json());
 };
 
 module.exports = { sendFile };
