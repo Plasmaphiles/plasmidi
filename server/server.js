@@ -21,8 +21,9 @@ app.get("/", (_req, res) =>
 );
 
 // Process the MIDI file using plasmidi.py and return the result
-app.post("/api/process", upload.single("file"), (req, res) =>
-  processFile(res, `uploads/${req.file.filename}`)
-);
+app.post("/api/process", upload.single("file"), (req, res) => {
+  console.log("__dirname:", __dirname);
+  processFile(res, `uploads/${req.file.filename}`);
+});
 
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
