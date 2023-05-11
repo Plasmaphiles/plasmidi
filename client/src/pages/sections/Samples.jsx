@@ -5,17 +5,14 @@ import WaterlooMulti from "../../midi/Waterloo-Multi.mid";
 import SimpleScale from "../../midi/Simple-Scale.mid";
 import Surprise from "../../midi/Surprise.mid";
 
-const DownloadButton = ({ file, filename }) => {
-  return (
-    <a
-      href={file}
-      download={filename}
-      style={{ paddingLeft: "10px", paddingBottom: "10px" }}>
-      <button className="btn btn-secondary">{filename}</button>
-    </a>
-  );
-};
-
+const DownloadButton = ({ file, filename }) => (
+  <a
+    href={file}
+    download={filename}
+    style={{ padding: "10px", display: "block" }}>
+    <button className="btn btn-secondary">{filename}</button>
+  </a>
+);
 const Samples = () => (
   <Section title="Samples">
     <p>Here's some MIDI files to play around with:</p>
