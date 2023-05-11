@@ -2,7 +2,6 @@ const { processFile } = require("./helpers/process");
 
 const express = require("express");
 const path = require("path");
-const multer = require("multer");
 
 const PORT = process.env.PORT || 3001;
 
@@ -23,11 +22,6 @@ app.get("/", (_req, res) =>
 // Process the MIDI file using plasmidi.py and return the result
 app.post("/api/process", upload.single("file"), (req, res) => {
   processFile(res, `uploads/${req.file.filename}`);
-});
-
-// Get the plasmidi.zip file for download
-app.get("/api/download", (_req, res) => {
-  res.status(200).download(`${__dirname}/plasmidi.zip`);
 });
 
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
