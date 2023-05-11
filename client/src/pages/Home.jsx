@@ -24,7 +24,7 @@ const Home = () => {
       <About />
       <Samples />
 
-      <Footer text="made by Leonardo1123 & SenorCluckens" />
+      <Footer>made by Leonardo1123 & SenorCluckens</Footer>
     </div>
   );
 };
