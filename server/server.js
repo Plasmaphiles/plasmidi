@@ -25,4 +25,9 @@ app.post("/api/process", upload.single("file"), (req, res) => {
   processFile(res, `uploads/${req.file.filename}`);
 });
 
+// Express route for file download
+app.get("/api/download", (req, res) => {
+  res.status(200).download(`${__dirname}/plasmidi.zip`);
+});
+
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));

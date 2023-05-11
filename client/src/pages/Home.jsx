@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import FileDrop from "../components/FileDrop";
+import download from "downloadjs";
+
+const previewText = (text, limit = 30) => {
+  if (text[limit - 1] === '"') text = `${text.substring(0, limit)}, ... ]`;
+  else text = `${text.substring(0, limit - 4)}...", ... ]`;
+
+  return text;
+};
 
 const Header = ({ title }) => (
   <header className="bg-primary text-light text-center py-5">
@@ -14,21 +22,34 @@ const Section = ({ title, children }) => (
   </section>
 );
 
-const CopyablePreview = ({ text }) => (
-  <>
-    <p style={{ display: "inline", paddingRight: "30px" }}>
-      {text.substring(0, 40)}...
-    </p>
-    <button
-      className="btn btn-secondary"
-      onClick={() => navigator.clipboard.writeText(text)}>
-      Copy to Clipboard
-    </button>
-  </>
-);
+const CopyablePreview = ({ text }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyText = text => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+  };
+
+  return (
+    <>
+      <code style={{ display: "inline", paddingRight: "30px" }}>
+        {previewText(text)}
+      </code>
+      <button className="btn btn-secondary" onClick={() => copyText(text)}>
+        {copied ? "Copied!" : "Copy to Clipboard"}
+      </button>
+    </>
+  );
+};
 
 const Home = () => {
   const [response, setResponse] = useState("");
+
+  const downloadFile = async () => {
+    const res = await fetch("/api/download");
+    const blob = await res.blob();
+    download(blob, "plasmidi.zip");
+  };
 
   return (
     <div>
@@ -40,6 +61,19 @@ const Home = () => {
 
       <Section title="Output">
         {response && <CopyablePreview text={response} />}
+      </Section>
+
+      <Section title="How to Use">
+        <p>Instructions go here.</p>
+      </Section>
+
+      <Section title="Download">
+        <p>
+          This site uses a Python script to convert the MIDI file to
+          Plasma-usable text. We did this so users could also download the
+          Python file to use locally! Here is that file.
+        </p>
+        <button onClick={downloadFile}>Download</button>
       </Section>
 
       <Section title="About">
