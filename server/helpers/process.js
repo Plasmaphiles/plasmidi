@@ -1,7 +1,10 @@
 const { exec } = require("child_process");
 const fs = require("fs");
 
-const sendResult = (res, cb) => (err, stdout) => {
+const runScript = (script, cb, ...args) =>
+  exec(`python3 ${script} ${args.join(" ")}`, cb);
+
+const sendResultCB = (res, cb) => (err, stdout) => {
   if (err) {
     console.error(`Error executing Python script: ${err}`);
     return res
@@ -14,9 +17,6 @@ const sendResult = (res, cb) => (err, stdout) => {
   cb();
 };
 
-const runScript = (script, cb, ...args) =>
-  exec(`python3 ${script} ${args.join(" ")}`, cb);
-
 const deleteFileCB = file => () =>
   fs.unlink(file, err => (err ? console.error(err) : null));
 
@@ -25,7 +25,7 @@ const processFile = (res, path) => {
     process.env.NODE_ENV
       ? "/app/server/scripts/plasmidi.py"
       : "../server/scripts/plasmidi.py",
-    sendResult(res, deleteFileCB(path)),
+    sendResultCB(res, deleteFileCB(path)),
     path
   );
 };
