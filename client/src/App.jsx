@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 
+// TODO: Switch to react-bootstrap instead of just boostrap
+
 const App = () => (
   <Router>
     <Routes>

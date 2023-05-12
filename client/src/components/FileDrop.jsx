@@ -6,26 +6,21 @@ import ReactMidiPlayer from "react-midi-player";
 
 const virtualLink = f => URL.createObjectURL(new Blob([f], { type: f.type }));
 
-const sendFile = file => {
+const sendFile = async file => {
   const formData = new FormData();
   formData.append("file", file);
 
-  const fetchOptions = {
+  const options = {
     method: "POST",
     body: formData,
   };
 
-  return fetch("/api/process", fetchOptions).then(res => res.json());
+  return fetch("/api/process", options).then(res => res.json());
 };
 
-const FileDrop = ({ setResponse }) => {
+const FileDrop = ({ setResponse = () => {} }) => {
   const [dropFiles, setDropFiles] = useState([]);
   const [midiFile, setMidiFile] = useState(null);
-
-  const removeFile = () => {
-    setDropFiles([]);
-    setMidiFile(null);
-  };
 
   // Send the MIDI file to the server to be parsed by the Python and returned
   const process = () => sendFile(midiFile).then(setResponse);
@@ -44,6 +39,11 @@ const FileDrop = ({ setResponse }) => {
       </button>
     </div>
   );
+
+  const removeFile = () => {
+    setDropFiles([]);
+    setMidiFile(null);
+  };
 
   const handleUpload = files => {
     setDropFiles(files);
