@@ -1,12 +1,11 @@
 import { default as ClipboardButton } from "./CopyToClipboardButton";
 
 const Track = ({ track }) => {
-  track.name = track.name.match(/[a-zA-Z\s]+/)[0];
+  track.name = track.name.match(/[a-zA-Z\s.]+/)[0];
   track.notes = JSON.stringify(track.notes).replaceAll("\\", "");
 
-  // FIXME: this is hacky as shit
   let preview = track.notes.substring(1, 20) + "...";
-  if (preview[0] !== "[") preview = "[" + preview;
+  if (preview[0] !== "[") preview = "[" + preview; // FIXME: this is hacky as shit
 
   return (
     <div style={{ paddingBottom: "10px" }}>
