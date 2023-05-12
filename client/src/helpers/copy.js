@@ -13,7 +13,7 @@ const copy = text => {
         .then(permission => {
           if (permission.state === "granted" || permission.state === "prompt") {
             navigator.clipboard
-              .writeText(data)
+              .writeText(text)
               .then(resolve, reject)
               .catch(reject);
           } else {
