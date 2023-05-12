@@ -30,7 +30,7 @@ class Song:
 			current_time = 0
 
 			tracks = [{
-				'name': f'{track_num}: {track.name}',
+				'name': f'{track_num}!{track.name}',
 				'overflow': False,
 				'notes': [],
 			}]
@@ -52,7 +52,7 @@ class Song:
 							#Break out any chords into separate tracks
 							while len(tracks) < orig_note.overflow + 1:
 								tracks += [{
-									'name': f'{track_num}: {track.name}',
+									'name': f'{track_num}!{track.name}',
 									'overflow': True,
 									'notes': [],
 								}]
@@ -71,7 +71,7 @@ class Song:
 				#Break out any chords into separate tracks
 				while len(tracks) < note.overflow + 1:
 					tracks += [{
-						'name': f'{track_num}: {track.name}',
+						'name': f'{track_num}!{track.name}',
 						'overflow': True,
 						'notes': [],
 					}]
@@ -145,9 +145,14 @@ class Song:
 		return self
 
 	def output(self) -> dict:
-		out = {}
+		out = []
 		for instrument in self.result:
-			out[instrument] = [str(i) for i in self.result[instrument]]
+			num, name = instrument.split('!', 1)
+			out += [{
+				'num': int(num),
+				'name': name,
+				'notes': [str(i) for i in self.result[instrument]]
+			}]
 		return out
 
 	def process(self, split_chords: bool = True) -> object:
