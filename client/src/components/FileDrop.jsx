@@ -2,6 +2,7 @@
 
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import * as React from "react";
+import MidiPlayer from "react-midi-player";
 
 const sendFile = file => {
   const formData = new FormData();
@@ -48,6 +49,7 @@ const FileDrop = ({ setResponse }) => {
       </Dropzone>
 
       {files.length > 0 && <SubmitButton />}
+      {files.length > 0 && <MidiPlayer file={files[0].file} />}
     </>
   );
 };
