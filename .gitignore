@@ -169,3 +169,5 @@ server/uploads
 node_modules
 
 plasmidi.zip
+
+.vscode
