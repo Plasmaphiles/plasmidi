@@ -12,7 +12,7 @@ const sendResultCB = (res, cb) => (err, stdout) => {
       .send("An error occurred while running the Python script.");
   }
 
-  res.send({ msg: stdout });
+  res.send({ midi: JSON.parse(stdout) });
 
   cb();
 };
