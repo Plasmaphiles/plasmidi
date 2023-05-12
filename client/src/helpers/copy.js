@@ -12,7 +12,10 @@ const copy = text => {
         .query({ name: "clipboard-write" })
         .then(permission => {
           if (permission.state === "granted" || permission.state === "prompt") {
-            navigator.clipboard.write(data).then(resolve, reject).catch(reject);
+            navigator.clipboard
+              .writeText(data)
+              .then(resolve, reject)
+              .catch(reject);
           } else {
             reject(new Error("Permission not granted!"));
           }
