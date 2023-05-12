@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header title="plasMIDI" />
+      <Header>plasMIDI</Header>
 
       <Upload setResponse={setResponse} />
       <Output response={response} />

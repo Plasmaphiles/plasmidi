@@ -24,14 +24,15 @@ class Song:
 	Read all midi data, breaking out notes into non-overlapping tracks
 	Returns self so chaining operations is possible.
 	"""
-	def read(self) -> object:
+	def read(self, split_chords: bool = True) -> object:
 		all_tracks = []
-		for track in self.midi.tracks:
+		for track_num, track in enumerate(self.midi.tracks):
 			current_time = 0
 
 			tracks = [{
-				'name': track.name,
-				'notes': []
+				'name': f'{track_num}!{track.name}',
+				'overflow': False,
+				'notes': [],
 			}]
 
 			open_notes = []
@@ -40,63 +41,87 @@ class Song:
 				current_time += msg.time
 
 				if (msg.type == 'note_on' and msg.velocity == 0) or msg.type == 'note_off':
-					#Find previous "on" note of the same value and remove it from the active list.
-					note = Note(msg.note, msg.velocity, current_time)
-					index = open_notes.index(note)
-					if index >= 0:
-						orig_note = open_notes.pop(index)
-						orig_note.stop = current_time
+					if split_chords:
+						#Find previous "on" note of the same value and remove it from the active list.
+						note = Note(msg.note, msg.velocity, current_time)
+						index = open_notes.index(note)
+						if index >= 0:
+							orig_note = open_notes.pop(index)
+							orig_note.stop = current_time
 
-						#Break out any chords into separate tracks
-						while len(tracks) < orig_note.overflow + 1:
-							tracks += [{
-								'name': f'{track.name} ({len(tracks)})',
-								'notes': []
-							}]
-						tracks[orig_note.overflow]['notes'] += [orig_note]
-
+							#Break out any chords into separate tracks
+							while len(tracks) < orig_note.overflow + 1:
+								tracks += [{
+									'name': f'{track_num}!{track.name}',
+									'overflow': True,
+									'notes': [],
+								}]
+							tracks[orig_note.overflow]['notes'] += [orig_note]
 				elif msg.type == 'note_on':
 					#Add new note to the active list.
 					note = Note(msg.note, msg.velocity, current_time)
 					note.auto_detect_overflow(open_notes)
-					open_notes += [note]
+					if split_chords:
+						open_notes += [note]
+					else:
+						tracks[0]['notes'] += [note]
 
 			#Take care of any notes that were turned on but not off; Just mark them as off now.
 			for note in open_notes:
 				#Break out any chords into separate tracks
 				while len(tracks) < note.overflow + 1:
 					tracks += [{
-						'name': f'{track.name} ({len(tracks)})',
-						'notes': []
+						'name': f'{track_num}!{track.name}',
+						'overflow': True,
+						'notes': [],
 					}]
 				tracks[note.overflow]['notes'] += [note]
 
 			self.total_ticks = max(self.total_ticks, current_time)
 
-			all_tracks += tracks
+			all_tracks += [i for i in tracks if len(i['notes'])]
 
 		self.tracks = all_tracks
 		return self
 
 	"""
-	Condense all tracks into a single track with all notes that start at the same time being on the same element.
+	Condense all overflow tracks into the parent track with all notes that start at the same time being on the same element.
 	Returns self so chaining operations is possible.
 	"""
 	def condense(self) -> object:
 		events = {}
-		for track_number, track in enumerate(self.tracks):
-			for note in track['notes']:
-				if note.start not in events:
-					events[note.start] = [None] * len(self.tracks)
-				events[note.start][track_number] = note
+		overflows = {}
+		track_nums = {}
+		for track_num, track in enumerate(self.tracks):
+			if track['name'] not in overflows:
+				overflows[track['name']] = 1
+				track_nums[track['name']] = track_num
+			else:
+				overflows[track['name']] += 1
 
-		triggers = []
-		for key in sorted(events.keys()):
-			triggers += [{
-				'time': key,
-				'notes': events[key]
+		for track_number, track in enumerate(self.tracks):
+			if track['name'] not in events:
+				events[track['name']] = {}
+			for note in track['notes']:
+				if note.start not in events[track['name']]:
+					events[track['name']][note.start] = [None] * overflows[track['name']]
+				events[track['name']][note.start][track_number - track_nums[track['name']]] = note
+
+		self.triggers = {}
+		for instrument in events:
+			#Dummy note to make sure all instruments start at the correct time.
+			first_notes_index = next(iter(events[instrument].keys()))
+			triggers = [{
+				'time': 0,
+				'notes': [None] * len(events[instrument][first_notes_index]),
 			}]
-		self.triggers = triggers
+			for key in sorted(events[instrument].keys()):
+				triggers += [{
+					'time': key,
+					'notes': events[instrument][key],
+				}]
+			self.triggers[instrument] = triggers
+
 		return self
 
 	"""
@@ -104,18 +129,32 @@ class Song:
 	Returns self so chaining operations is possible.
 	"""
 	def relate(self) -> object:
-		result = []
+		result = {}
 		prev_time = 0
 
-		for trigger in self.triggers:
-			if len(result):
-				result[-1].delay = mido.tick2second(trigger['time'] - prev_time, self.ticks_per_beat, self.tempo)
+		for instrument in self.triggers:
+			result[instrument] = []
+			for trigger in self.triggers[instrument]:
+				if len(result[instrument]):
+					result[instrument][-1].delay = mido.tick2second(trigger['time'] - prev_time, self.ticks_per_beat, self.tempo)
 
-			result += [OutputEvent(trigger['notes'])]
-			prev_time = trigger['time']
+				result[instrument] += [OutputEvent(trigger['notes'])]
+				prev_time = trigger['time']
 
 		self.result = result
 		return self
 
-	def process(self) -> list:
-		return [str(i) for i in self.read().condense().relate().result]
+	def output(self) -> dict:
+		out = []
+		for instrument in self.result:
+			num, name = instrument.split('!', 1)
+			out += [{
+				'num': int(num),
+				'name': name,
+				'notes': [str(i) for i in self.result[instrument]]
+			}]
+		return out
+
+	def process(self, split_chords: bool = True) -> object:
+		self.read(split_chords).condense().relate()
+		return self.output()
