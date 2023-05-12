@@ -5,9 +5,9 @@ const copy = text => {
       typeof navigator.clipboard !== "undefined" &&
       navigator.permissions !== "undefined"
     ) {
-      const type = "text/plain";
-      const blob = new Blob([text], { type });
-      const data = [new ClipboardItem({ [type]: blob })];
+      // const type = "text/plain";
+      // const blob = new Blob([text], { type });
+      // const data = [new ClipboardItem({ [type]: blob })];
       navigator.permissions
         .query({ name: "clipboard-write" })
         .then(permission => {
