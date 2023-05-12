@@ -1,33 +1,28 @@
-import { useState } from "react";
-import copy from "../helpers/copy";
+import { default as ClipboardButton } from "./CopyToClipboardButton";
 
 const previewText = (text, limit = 30) => {
-  if (text[limit - 1] === '"') text = `${text.substring(0, limit)}, ... ]`;
-  else text = `${text.substring(0, limit - 4)}...", ... ]`;
+  switch (text[limit - 1]) {
+    case ",":
+      text = text.substring(1, limit);
+      break;
+    case '"':
+      text = text.substring(1, limit - 1) + ",";
+      break;
+    default:
+      text = text.substring(1, limit - 5) + '...",';
+      break;
+  }
 
-  return text;
+  return `[${text} ... ]`;
 };
 
 const CopyablePreview = ({ text }) => {
-  const [copied, setCopied] = useState(false);
-
-  const copyText = text => {
-    // navigator.clipboard.writeText(text);
-    try {
-      copy(text).then(() => setCopied(true));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   return (
     <>
       <code style={{ display: "inline", paddingRight: "30px" }}>
         {previewText(text)}
       </code>
-      <button className="btn btn-secondary" onClick={() => copyText(text)}>
-        {copied ? "Copied!" : "Copy to Clipboard"}
-      </button>
+      <ClipboardButton text={text} />
     </>
   );
 };
