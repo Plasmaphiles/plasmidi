@@ -67,6 +67,7 @@ const FileDrop = ({ setResponse = () => {} }) => {
 
       {midiFile && (
         <div style={{ paddingTop: "10px" }}>
+          {/* FIXME: Re-renders on process() call */}
           <ReactMidiPlayer src={virtualLink(midiFile)} />
           <SubmitButton />
         </div>
