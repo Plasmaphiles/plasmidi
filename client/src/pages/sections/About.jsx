@@ -4,7 +4,7 @@ const About = () => (
   <Section title="About">
     <p>
       Plasma is an engineering sandbox game where you can create your own
-      devices and worlds. Recently,they added the ability for you to create a
+      devices and worlds. Recently, they added the ability for you to create a
       variety of sounds large enough to be able to play real music in Plasma.
     </p>
     <p>
