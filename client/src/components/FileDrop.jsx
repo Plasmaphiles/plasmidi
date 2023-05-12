@@ -21,8 +21,7 @@ const FileDrop = ({ setResponse }) => {
   const removeFile = id => setFiles(files.filter(x => x.id !== id));
 
   // Send the MIDI file to the server to be parsed by the Python and returned
-  const process = () =>
-    sendFile(files[0].file).then(data => setResponse(data.msg));
+  const process = () => sendFile(files[0].file).then(setResponse);
 
   const SubmitButton = () => (
     <div className="text-center" style={{ paddingTop: "10px" }}>
