@@ -8,13 +8,18 @@ const Track = ({ track }) => {
   if (preview[0] !== "[") preview = "[" + preview; // FIXME: this is hacky as shit
 
   return (
-    <div style={{ paddingBottom: "10px" }}>
-      <span>
-        {track.name} - {track.num}:
-      </span>
-      <code style={{ display: "inline", padding: "30px" }}>{preview}</code>
-      <ClipboardButton text={track.notes} />
-      <br />
+    <div className="row align-items-center" style={{ paddingBottom: "10px" }}>
+      <div className="col-3">
+        <span>
+          {track.name} - {track.num}:
+        </span>
+      </div>
+      <div className="col-4">
+        <code style={{ display: "inline", padding: "30px" }}>{preview}</code>
+      </div>
+      <div className="col-4">
+        <ClipboardButton text={track.notes} />
+      </div>
     </div>
   );
 };
