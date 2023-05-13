@@ -3,7 +3,8 @@ import { default as ClipboardButton } from "./CopyToClipboardButton";
 const getPreview = track => {
   const preview = track.notes.substring(1, 20) + "...";
 
-  return preview[0] === "[" ? preview : "[" + preview; // TODO: check Prod / Dev diff issue
+  // TODO: check Prod / Dev diff issue: bracket
+  return preview[0] === "[" ? preview : "[" + preview;
 };
 
 const Track = ({ track }) => {

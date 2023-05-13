@@ -2,24 +2,30 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import copy from "../helpers/copy";
 
-// String.prototype.strip = function(char) {
-//   if (char) {
+// eslint-disable-next-line no-extend-native
+String.prototype.strip = function (char) {
+  if (char) {
+    let newString = this.toString();
 
-//   }
-// }
+    if (newString[0] === char)
+      newString = newString.substring(1, newString.length);
 
-const stripQuotes = text =>
-  text[0] === '"' && text[text.length - 1] === '"'
-    ? text.substring(1, text.length - 1)
-    : text;
+    if (newString[newString.length - 1] === char)
+      newString = newString.substring(0, newString.length - 1);
+
+    return newString.toString();
+  }
+
+  return this.trim();
+};
 
 const CopyToClipboardButton = ({ text }) => {
   const [copied, setCopied] = useState(false);
 
   const copyText = text => {
     try {
-      text = stripQuotes(text);
-      copy(text).then(() => setCopied(true));
+      // TODO: check Prod / Dev diff issue: quotes
+      copy(text.strip('"')).then(() => setCopied(true));
     } catch (e) {
       console.error(e);
     }
