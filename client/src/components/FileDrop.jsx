@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import ReactMidiPlayer from "react-midi-player";
 
-import { sendFile, virtualLink } from "../helpers/files";
+import { sendFile, virtualLink } from "../helpers/fileHelper";
 
 const FileDrop = ({ setResponse = () => {} }) => {
   const [dropFiles, setDropFiles] = useState([]);
