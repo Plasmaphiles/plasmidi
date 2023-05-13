@@ -1,11 +1,16 @@
 import { default as ClipboardButton } from "./CopyToClipboardButton";
 
+const getPreview = track => {
+  const preview = track.notes.substring(1, 20) + "...";
+
+  return preview[0] === "[" ? preview : "[" + preview; // TODO: check Prod / Dev diff issue
+};
+
 const Track = ({ track }) => {
   track.name = track.name.match(/[a-zA-Z\s.]+/)[0];
   track.notes = JSON.stringify(track.notes).replaceAll("\\", "");
 
-  let preview = track.notes.substring(1, 20) + "...";
-  if (preview[0] !== "[") preview = "[" + preview; // FIXME: this is hacky as shit
+  const preview = getPreview(track);
 
   return (
     <div className="row align-items-center" style={{ paddingBottom: "10px" }}>

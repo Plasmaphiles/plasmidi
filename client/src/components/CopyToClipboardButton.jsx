@@ -2,14 +2,23 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import copy from "../helpers/copy";
 
+// String.prototype.strip = function(char) {
+//   if (char) {
+
+//   }
+// }
+
+const stripQuotes = text =>
+  text[0] === '"' && text[text.length - 1] === '"'
+    ? text.substring(1, text.length - 1)
+    : text;
+
 const CopyToClipboardButton = ({ text }) => {
   const [copied, setCopied] = useState(false);
 
   const copyText = text => {
     try {
-      // FIXME: fix this hacky shit
-      if (text[0] === '"' && text[text.length - 1] === '"')
-        text = text.substring(1, text.length - 1);
+      text = stripQuotes(text);
       copy(text).then(() => setCopied(true));
     } catch (e) {
       console.error(e);
