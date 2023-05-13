@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-import Upload from "./sections/Upload";
-import Download from "./sections/Download";
-import Output from "./sections/Output";
 import HowToUse from "./sections/HowToUse";
-import About from "./sections/About";
+import Download from "./sections/Download";
 import Samples from "./sections/Samples";
+import Upload from "./sections/Upload";
+import Output from "./sections/Output";
+import About from "./sections/About";
 
 import MH from "../helpers/midi";
 

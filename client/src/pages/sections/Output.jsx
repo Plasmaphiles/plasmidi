@@ -1,13 +1,11 @@
 import Track from "../../components/Track";
 import Section from "../../components/Section";
 
+const showMidi = midi => midi.map(trk => <Track track={trk} key={trk.num} />);
+
 const Output = ({ midi }) => (
   <Section title="Output">
-    {midi ? (
-      midi.map(track => <Track track={track} key={track.num} />)
-    ) : (
-      <p>Upload a file!</p>
-    )}
+    {midi ? showMidi(midi) : <p>Upload a file!</p>}
   </Section>
 );
 
