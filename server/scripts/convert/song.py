@@ -109,6 +109,14 @@ class Song:
 
 		self.triggers = {}
 		for instrument in events:
+			#Insert 'sync' pseudo-notes periodically.
+			step_size = 5000
+			for i in range(step_size, self.total_ticks, step_size):
+				if i not in events[instrument]:
+					events[instrument][i] = ['SYNC'] #Sync flag
+				else:
+					events[instrument][i].insert(0, 'SYNC')
+
 			#Dummy note to make sure all instruments start at the correct time.
 			first_notes_index = next(iter(events[instrument].keys()))
 			triggers = [{
