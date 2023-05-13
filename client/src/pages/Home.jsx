@@ -14,7 +14,7 @@ const Home = () => {
   const [response, setResponse] = useState("");
 
   return (
-    <div>
+    <>
       <Header>plasMIDI</Header>
 
       <Upload setResponse={setResponse} />
@@ -25,7 +25,7 @@ const Home = () => {
       <Samples />
 
       <Footer>made by Leonardo1123 & SenorCluckens</Footer>
-    </div>
+    </>
   );
 };
 
