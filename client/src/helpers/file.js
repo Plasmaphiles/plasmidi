@@ -12,5 +12,6 @@ const sendFile = async file => {
   return fetch("/api/process", options).then(res => res.json());
 };
 
-module.exports.sendFile = sendFile;
-module.exports.virtualLink = virtualLink;
+const FileHelper = { virtualLink, sendFile };
+
+export default FileHelper;

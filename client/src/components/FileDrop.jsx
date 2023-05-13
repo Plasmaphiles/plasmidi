@@ -3,14 +3,14 @@ import { Button } from "react-bootstrap";
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import ReactMidiPlayer from "react-midi-player";
 
-import { sendFile, virtualLink } from "../helpers/fileHelper";
+import FH from "../helpers/file";
 
 const FileDrop = ({ setResponse = () => {} }) => {
   const [dropFiles, setDropFiles] = useState([]);
   const [midiFile, setMidiFile] = useState(null);
 
   // Send the MIDI file to the server to be parsed by the Python and returned
-  const process = () => sendFile(midiFile).then(setResponse);
+  const process = () => FH.sendFile(midiFile).then(setResponse);
 
   const SubmitButton = () => (
     <div
@@ -55,7 +55,7 @@ const FileDrop = ({ setResponse = () => {} }) => {
       {midiFile && (
         <div style={{ paddingTop: "10px" }}>
           {/* FIXME: Re-renders on process() call */}
-          <ReactMidiPlayer src={virtualLink(midiFile)} />
+          <ReactMidiPlayer src={FH.virtualLink(midiFile)} />
           <SubmitButton />
         </div>
       )}
