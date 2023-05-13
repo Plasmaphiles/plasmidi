@@ -1,7 +1,6 @@
-// https://www.npmjs.com/package/@dropzone-ui/react
-
-import { Dropzone, FileMosaic } from "@files-ui/react";
 import { useState } from "react";
+import { Button } from "react-bootstrap";
+import { Dropzone, FileMosaic } from "@files-ui/react";
 import ReactMidiPlayer from "react-midi-player";
 
 const virtualLink = f => URL.createObjectURL(new Blob([f], { type: f.type }));
@@ -34,9 +33,9 @@ const FileDrop = ({ setResponse = () => {} }) => {
         position: "relative",
         display: "inline-block",
       }}>
-      <button className="btn btn-primary" onClick={process}>
+      <Button variant="primary" onClick={process}>
         Process File
-      </button>
+      </Button>
     </div>
   );
 

@@ -1,10 +1,13 @@
+import { Button } from "react-bootstrap";
+
 const DownloadButton = ({ file, filename }) => (
-  <a
+  <Button
+    variant="secondary"
     href={file}
     download={filename}
     style={{ margin: "10px", display: "inline-block" }}>
-    <button className="btn btn-secondary">{filename}</button>
-  </a>
+    {filename}
+  </Button>
 );
 
 export default DownloadButton;
