@@ -7,7 +7,7 @@ const CopyToClipboardButton = ({ text }) => {
 
   const copyText = text => {
     try {
-      // fix this hacky shit
+      // FIXME: fix this hacky shit
       if (text[0] === '"' && text[text.length - 1] === '"')
         text = text.substring(1, text.length - 1);
       copy(text).then(() => setCopied(true));
