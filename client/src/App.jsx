@@ -1,7 +1,8 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import React from "react";
 import rg4js from "raygun4js";
+
+import Home from "./pages/Home";
 
 rg4js("apiKey", "RFXwCYSCxlOV8C8v6cX3g");
 rg4js("enablePulse", true);
