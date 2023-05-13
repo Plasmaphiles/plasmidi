@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "production")
 
 // Home page render
 app.get("/", (_req, res) =>
-  res.sendFile(path.join(__dirname, "../client/build/index.html"))
+  res.status(200).sendFile(path.join(__dirname, "../client/build/index.html"))
 );
 
 // Process the MIDI file using plasmidi.py and return the result
