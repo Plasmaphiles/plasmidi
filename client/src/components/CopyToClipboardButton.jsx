@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import copy from "../helpers/copy";
+
+import CH from "../helpers/copy";
 
 // eslint-disable-next-line no-extend-native
 String.prototype.strip = function (char) {
@@ -25,7 +26,7 @@ const CopyToClipboardButton = ({ text }) => {
   const copyText = text => {
     try {
       // TODO: check Prod / Dev diff issue: quotes
-      copy(text.strip('"')).then(() => setCopied(true));
+      CH.copy(text.strip('"')).then(() => setCopied(true));
     } catch (e) {
       console.error(e);
     }

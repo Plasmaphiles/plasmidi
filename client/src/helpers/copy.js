@@ -4,4 +4,6 @@ const copy = text =>
     navigator.clipboard.writeText(text).then(resolve, reject).catch(reject)
   );
 
-export default copy;
+const CopyHelper = { copy };
+
+export default CopyHelper;
