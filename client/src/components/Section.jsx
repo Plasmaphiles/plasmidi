@@ -1,8 +1,10 @@
+import { Container } from "react-bootstrap";
+
 const Section = ({ title, children }) => (
-  <section className="container py-5">
+  <Container className="py-5">
     <h2 className="mb-4">{title}</h2>
     {children}
-  </section>
+  </Container>
 );
 
 export default Section;

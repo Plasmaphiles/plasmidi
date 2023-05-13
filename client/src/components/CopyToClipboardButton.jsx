@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "react-bootstrap";
 import copy from "../helpers/copy";
 
 const CopyToClipboardButton = ({ text }) => {
@@ -13,9 +14,9 @@ const CopyToClipboardButton = ({ text }) => {
   };
 
   return (
-    <button className="btn btn-secondary" onClick={() => copyText(text)}>
+    <Button variant="secondary" onClick={copyText.bind(null, text)}>
       {copied ? "Copied!" : "Copy to Clipboard"}
-    </button>
+    </Button>
   );
 };
 
