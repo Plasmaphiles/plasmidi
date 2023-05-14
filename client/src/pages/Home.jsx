@@ -10,15 +10,15 @@ import Upload from "./sections/Upload";
 import Output from "./sections/Output";
 import About from "./sections/About";
 
-import MH from "../helpers/midi";
+import MH from "../helpers/plasmidi";
 
 const Home = () => {
   const [response, setResponse] = useState("");
-  const [midi, setMidi] = useState("");
+  const [plasMIDI, setPlasMIDI] = useState("");
 
   useEffect(() => {
-    if (!response) return;
-    setMidi(response.midi.map(MH.parseTrack));
+    if (response)
+      setPlasMIDI({ tracks: response.plasMIDI.tracks.map(MH.parseTrack) });
   }, [response]);
 
   return (
@@ -26,7 +26,7 @@ const Home = () => {
       <Header>plasMIDI</Header>
 
       <Upload setResponse={setResponse} />
-      <Output midi={midi} />
+      <Output plasMIDI={plasMIDI} />
       <Download />
       <HowToUse />
       <About />

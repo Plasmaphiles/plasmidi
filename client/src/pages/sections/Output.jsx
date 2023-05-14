@@ -1,11 +1,12 @@
 import Track from "../../components/Track";
 import Section from "../../components/Section";
 
-const showMidi = midi => midi.map(trk => <Track track={trk} key={trk.num} />);
+const showMidi = plasMIDI =>
+  plasMIDI.tracks.map(trk => <Track track={trk} key={trk.num} />);
 
-const Output = ({ midi }) => (
+const Output = ({ plasMIDI }) => (
   <Section title="Output">
-    {midi ? showMidi(midi) : <p>Upload a file!</p>}
+    {plasMIDI ? showMidi(plasMIDI) : <p>Upload a file!</p>}
   </Section>
 );
 

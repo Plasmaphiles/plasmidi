@@ -1,10 +1,13 @@
 const { exec } = require("child_process");
 const fs = require("fs");
 
+const getTitle = path =>
+  path.split("/")[0] === "uploads" ? null : path.split("/")[1].split(".")[0];
+
 const runScript = (script, cb, ...args) =>
   exec(`python3 ${script} ${args.join(" ")}`, cb);
 
-const sendResultCB = (res, cb) => (err, stdout) => {
+const sendResultCB = (res, path, cb) => (err, stdout) => {
   if (err) {
     console.error(`Error executing Python script: ${err}`);
     return res
@@ -12,7 +15,12 @@ const sendResultCB = (res, cb) => (err, stdout) => {
       .send("An error occurred while running the Python script.");
   }
 
-  res.status(200).send({ midi: JSON.parse(stdout) });
+  res.status(200).send({
+    plasMIDI: {
+      tracks: JSON.parse(stdout),
+      title: getTitle(path),
+    },
+  });
 
   cb();
 };
@@ -26,7 +34,7 @@ const plasmidiPath =
 const processMidi = (res, midiPath, delFile) =>
   runScript(
     plasmidiPath,
-    sendResultCB(res, delFile ? deleteFileCB(midiPath) : () => {}),
+    sendResultCB(res, midiPath, delFile ? deleteFileCB(midiPath) : () => {}),
     midiPath
   );
 

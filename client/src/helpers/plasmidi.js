@@ -16,6 +16,6 @@ const parseTrack = track => {
   };
 };
 
-const MidiHelper = { parseTrack };
+const PlasMIDIHelper = { parseTrack };
 
-export default MidiHelper;
+export default PlasMIDIHelper;
