@@ -20,15 +20,14 @@ const sendResultCB = (res, cb) => (err, stdout) => {
 const deleteFileCB = file => () =>
   fs.unlink(file, err => (err ? console.error(err) : null));
 
-const plasmidiPath = process.env.NODE_ENV
-  ? "/app/server/scripts/plasmidi.py"
-  : "../server/scripts/plasmidi.py";
+const plasmidiPath =
+  (process.env.NODE_ENV ? "/app/" : "../") + "server/scripts/plasmidi.py";
 
-const processFile = (res, path, delFile) =>
+const processMidi = (res, midiPath, delFile) =>
   runScript(
     plasmidiPath,
-    sendResultCB(res, delFile ? deleteFileCB(path) : () => {}),
-    path
+    sendResultCB(res, delFile ? deleteFileCB(midiPath) : () => {}),
+    midiPath
   );
 
-module.exports = { processFile };
+module.exports = { processMidi };
