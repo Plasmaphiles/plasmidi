@@ -3,11 +3,9 @@ const archiver = require("archiver");
 
 const deleteFile = path => {
   try {
-    console.log();
     fs.unlinkSync(path);
     console.log("Zip deleted successfully.");
   } catch (err) {
-    console.log("error");
     if (err.code !== "ENOENT") throw err; // File not found is okay
   }
 };
