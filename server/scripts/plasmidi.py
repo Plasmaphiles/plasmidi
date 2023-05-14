@@ -10,7 +10,7 @@ if len(sys.argv) < 2:
     print('If no TRACK parameters are passed, all tracks are output.')
     exit()
 
-print(os.path.dirname())
+print(os.path.dirname("."))
 midi = mido.MidiFile(sys.argv[1])
 song = Song(midi)
 notes = song.process()
