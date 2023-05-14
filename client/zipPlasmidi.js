@@ -3,6 +3,7 @@ const archiver = require("archiver");
 
 const deleteFile = path => {
   try {
+    console.log(process.env.NODE_ENV);
     fs.unlinkSync(path);
     console.log("Zip deleted successfully.");
   } catch (err) {
