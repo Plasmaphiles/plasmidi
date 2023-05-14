@@ -22,7 +22,8 @@ app.get("/", (_req, res) =>
 
 // Serve the plasMIDI from a pre-hosted MIDI file
 app.get("/api/process/:name", (req, res) => {
-  processMidi(res, `midi/${req.params.name}.mid`);
+  const path = `../midi/${req.params.name}.mid`;
+  processMidi(res);
 });
 
 // Process the MIDI file using plasmidi.py and return the result
