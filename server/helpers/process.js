@@ -1,9 +1,13 @@
 const { exec } = require("child_process");
 const fs = require("fs");
-const { isNode, isProd } = require("../../isProd");
+const { isProd } = require("../../isProd");
 
-const getTitle = path =>
-  path.split("/")[0] === "uploads" ? null : path.split("/")[1].split(".")[0];
+const getTitle = path => {
+  if (path.split("/")[0] === "uploads") return null;
+
+  const bits = path.split("/");
+  return bits[bits.length - 1].split(".")[0];
+};
 
 const runScript = (script, cb, ...args) =>
   exec(`python3 ${script} ${args.join(" ")}`, cb);
