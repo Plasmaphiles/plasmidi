@@ -20,9 +20,13 @@ app.get("/", (_req, res) =>
   res.status(200).sendFile(path.join(__dirname, "../client/build/index.html"))
 );
 
+app.get("/api/process/:name", (req, res) => {
+  processFile(res, `midi/${req.params.name}.mid`);
+});
+
 // Process the MIDI file using plasmidi.py and return the result
 app.post("/api/process", upload.single("file"), (req, res) => {
-  processFile(res, `uploads/${req.file.filename}`);
+  processFile(res, `uploads/${req.file.filename}`, true);
 });
 
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));

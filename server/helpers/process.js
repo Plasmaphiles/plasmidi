@@ -24,7 +24,11 @@ const plasmidiPath = process.env.NODE_ENV
   ? "/app/server/scripts/plasmidi.py"
   : "../server/scripts/plasmidi.py";
 
-const processFile = (res, path) =>
-  runScript(plasmidiPath, sendResultCB(res, deleteFileCB(path)), path);
+const processFile = (res, path, delFile) =>
+  runScript(
+    plasmidiPath,
+    sendResultCB(res, delFile ? deleteFileCB(path) : () => {}),
+    path
+  );
 
 module.exports = { processFile };
