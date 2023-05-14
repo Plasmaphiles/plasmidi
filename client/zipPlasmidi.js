@@ -1,5 +1,6 @@
 const fs = require("fs");
 const archiver = require("archiver");
+const { isProd } = require("../isProd");
 
 const deleteFile = path => {
   try {
@@ -21,7 +22,7 @@ const createZip = (zipPath, dirPath) => {
   output.on("close", () => console.log("Zip file created successfully."));
 };
 
-const zipPath = (process.env.NODE_ENV ? "" : "client/") + "src/plasmidi.zip";
+const zipPath = isProd("", "client") + "src/plasmidi.zip";
 
 deleteFile(zipPath);
 createZip(zipPath, "../server/scripts");

@@ -3,7 +3,7 @@ const { processMidi } = require("./helpers/process");
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { ifNode } = require("../ifNode");
+const { isProd } = require("../isProd");
 
 const PORT = process.env.PORT || 3001;
 
@@ -23,18 +23,10 @@ app.get("/", (_req, res) =>
 
 // Serve the plasMIDI from a pre-hosted MIDI file
 app.get("/api/process/:name", (req, res) => {
-  const path = `${ifNode("server/")}midi/${req.params.name}.mid`;
-  // (process.env.NODE_ENV ? "server/" : "") + `midi/${req.params.name}.mid`;
+  const path = `${isProd("server/", "")}midi/${req.params.name}.mid`;
 
   processMidi(res, path);
 });
-
-/*
-app.get("/api/process/:name", (req, res) => {
-  const path = `../midi/${req.params.name}.mid`;
-  processMidi(res, path);
-});
-*/
 
 // Process the MIDI file using plasmidi.py and return the result
 app.post("/api/process", upload.single("file"), (req, res) =>

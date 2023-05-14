@@ -5,6 +5,13 @@ Convert midi files to a data format Plasma devices can easily digest
 ## [plasmidi.com](https://www.plasmidi.com/)
 Upload a MIDI file and click the "Process file" button. After that, some text will appear in the output section. It will likely be shortened, as there tends to be a lot of text in the output, so click on the Copy to Clipboard button and then you can return to Plasma to paste that text into our music-playing device. You can find it by searching for it by ID in the Device Browser window of Plasma. **ID: 2974886965**
 
+## plasMIDI API
+API routes can be used to directly query plasMIDI data. 
+
+Songs stored in the `server/midi` folder can be queried at the `/api/process/:name` route.
+For example, if you wanted to get the plasMIDI data for `server/midi/Waterloo.mid`, you could run the following JavaScript code (or make a similar request using software like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/)).
+
+
 ## plasmidi.py
 The `plasmidi.py` script requires the [mido python module](https://mido.readthedocs.io) to parse MIDI files. You can install this module by running the following command:
 ```bash

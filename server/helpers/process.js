@@ -1,5 +1,6 @@
 const { exec } = require("child_process");
 const fs = require("fs");
+const { isNode, isProd } = require("../../isProd");
 
 const getTitle = path =>
   path.split("/")[0] === "uploads" ? null : path.split("/")[1].split(".")[0];
@@ -28,8 +29,7 @@ const sendResultCB = (res, path, cb) => (err, stdout) => {
 const deleteFileCB = file => () =>
   fs.unlink(file, err => (err ? console.error(err) : null));
 
-const plasmidiPath =
-  (process.env.NODE_ENV ? "/app/" : "../") + "server/scripts/plasmidi.py";
+const plasmidiPath = isProd("/app/", "../") + "server/scripts/plasmidi.py";
 
 const processMidi = (res, midiPath, delFile) =>
   runScript(
