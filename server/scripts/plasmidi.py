@@ -2,7 +2,6 @@ import mido
 import sys
 import json
 from convert import Song
-import os
 
 if len(sys.argv) < 2:
     print('Convert a MIDI file to a format that\'s easy to parse in Plasma.\n')
@@ -10,7 +9,6 @@ if len(sys.argv) < 2:
     print('If no TRACK parameters are passed, all tracks are output.')
     exit()
 
-print(os.path.dirname("."))
 midi = mido.MidiFile(sys.argv[1])
 song = Song(midi)
 notes = song.process()
