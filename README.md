@@ -1,15 +1,34 @@
 # plasMIDI
 Convert midi files to a data format Plasma devices can easily digest
 
-
 # How to Use
 ## [plasmidi.com](https://www.plasmidi.com/)
 Upload a MIDI file and click the "Process file" button. After that, some text will appear in the output section. It will likely be shortened, as there tends to be a lot of text in the output, so click on the Copy to Clipboard button and then you can return to Plasma to paste that text into our music-playing device. You can find it by searching for it by ID in the Device Browser window of Plasma. **ID: 2974886965**
 
 ## plasmidi.py
+The `plasmidi.py` script requires the [mido python module](https://mido.readthedocs.io) to parse MIDI files. You can install this module by running `python3 -m pip install mido` in the terminal.
+
+After that, you'll need to get the python files. If you've cloned this repo, the path to plasmidi.py will be `server/scripts/plasmidi.py`. Otherwise you can download the zip file [here](https://github.com/ZacharyWesterman/plasmidi/blob/main/client/src/plasmidi.zip).
+
+```bash
+python3 path/to/plasmidi.py path/to/my_file.mid
+```
+It will output a JSON string representation which you can either pipe into a program or file to parse it.
+
+If you only want one or more specific tracks, append the track number or name onto the command, and it will only output the tracks that exactly match those names/numbers:
+```bash
+python3 path/to/plasmidi.py path/to/my_file.mid 3 "DRUMS"
+```
+
+On Windows, you can also pipe the output into your clipboard like so:
+```bash
+python3 path/to/plasmidi.py path/to/my_file.mid 3 "DRUMS" | clip.exe
+```
 
 ## Local Server
-```
+If you want to contribute to the web part of the project, you'll need to run the server locally to test it. You'll need to have [Node.js](https://nodejs.org/) installed in order to run the server. Once you have it, enter the following commands to clone and move to the server, then install all the dependencies and launch it. 
+
+```bash
 git clone https://github.com/ZacharyWesterman/plasmidi
 cd plasmidi
 npm install
@@ -27,4 +46,4 @@ Plasma, being an open sandbox, is not geared directly towards music creation, an
 
 That's where we come in. We made this tool to allow you to upload any MIDI file and get a text representation of the music in a formatted text format that's able to be further worked with in Plasma.
 
-In order to easily use this text format for music production, we've made our own device that is designed to play notes when given text in this format. You can find it by searching for it by ID in the Device Browser window of Plasma. ID: 2974886965
+In order to easily use this text format for music production, we've made our own device that is designed to play notes when given text in this format. You can find it by searching for it by ID in the Device Browser window of Plasma. **ID: 2974886965**
