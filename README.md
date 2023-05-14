@@ -6,7 +6,10 @@ Convert midi files to a data format Plasma devices can easily digest
 Upload a MIDI file and click the "Process file" button. After that, some text will appear in the output section. It will likely be shortened, as there tends to be a lot of text in the output, so click on the Copy to Clipboard button and then you can return to Plasma to paste that text into our music-playing device. You can find it by searching for it by ID in the Device Browser window of Plasma. **ID: 2974886965**
 
 ## plasmidi.py
-The `plasmidi.py` script requires the [mido python module](https://mido.readthedocs.io) to parse MIDI files. You can install this module by running `python3 -m pip install mido` in the terminal.
+The `plasmidi.py` script requires the [mido python module](https://mido.readthedocs.io) to parse MIDI files. You can install this module by running the following command:
+```bash
+python3 -m pip install mido
+```
 
 After that, you'll need to get the python files. If you've cloned this repo, the path to plasmidi.py will be `server/scripts/plasmidi.py`. Otherwise you can download the zip file [here](https://github.com/ZacharyWesterman/plasmidi/blob/main/client/src/plasmidi.zip).
 
