@@ -11,6 +11,7 @@ import Output from "./sections/Output";
 import About from "./sections/About";
 
 import MH from "../helpers/plasmidi";
+import Limitations from "./sections/Limitations";
 
 const Home = () => {
   const [response, setResponse] = useState("");
@@ -29,6 +30,7 @@ const Home = () => {
       <Output plasMIDI={plasMIDI} />
       <Download />
       <HowToUse />
+      <Limitations />
       <About />
       <Samples />
 
