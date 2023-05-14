@@ -3,7 +3,7 @@ const archiver = require("archiver");
 
 const deleteFile = path => {
   try {
-    console.log(process.env.NODE_ENV);
+    console.log();
     fs.unlinkSync(path);
     console.log("Zip deleted successfully.");
   } catch (err) {
@@ -23,7 +23,7 @@ const createZip = (zipPath, dirPath) => {
   output.on("close", () => console.log("Zip file created successfully."));
 };
 
-const zipPath = "client/src/plasmidi.zip";
+const zipPath = (process.env.NODE_ENV ? "" : "client/") + "src/plasmidi.zip";
 
 deleteFile(zipPath);
 createZip(zipPath, "../server/scripts");
