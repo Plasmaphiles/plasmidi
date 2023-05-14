@@ -168,5 +168,6 @@ server/node_modules
 server/uploads
 node_modules
 
+.DS_STORE
 
 .vscode
