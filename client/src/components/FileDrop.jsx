@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import ReactMidiPlayer from "react-midi-player";
+// import ReactMidiPlayer from "react-midi-player";
 
 import FH from "../helpers/file";
 
@@ -13,14 +13,7 @@ const FileDrop = ({ setResponse = () => {} }) => {
   const process = () => FH.sendFile(midiFile).then(setResponse);
 
   const SubmitButton = () => (
-    <div
-      className="text-center"
-      style={{
-        paddingLeft: "10px",
-        bottom: "13px",
-        position: "relative",
-        display: "inline-block",
-      }}>
+    <div className="text-center" style={{ paddingTop: "10px" }}>
       <Button variant="primary" onClick={process}>
         Process File
       </Button>
@@ -52,13 +45,10 @@ const FileDrop = ({ setResponse = () => {} }) => {
         ))}
       </Dropzone>
 
-      {midiFile && (
-        <div style={{ paddingTop: "10px" }}>
-          {/* FIXME: Re-renders on process() call */}
-          <ReactMidiPlayer src={FH.virtualLink(midiFile)} />
-          <SubmitButton />
-        </div>
-      )}
+      {midiFile && <SubmitButton />}
+      {/* FIXME: Re-renders on process() call */}
+      {/* FIXME: And throws runtime errors */}
+      {/* <ReactMidiPlayer src={FH.virtualLink(midiFile)} /> */}
     </>
   );
 };
