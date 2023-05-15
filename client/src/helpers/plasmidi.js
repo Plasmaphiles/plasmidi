@@ -11,7 +11,6 @@ const parseTrack = track => {
   return {
     ...track,
     notes,
-    name: track.name.match(/[a-zA-Z\s.]+/)[0],
     preview: getPreview(notes),
   };
 };
