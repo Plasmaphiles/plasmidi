@@ -4,6 +4,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const { isProd } = require("../isProd");
+const { sendPlasmaUIPage } = require("./helpers/sendPlasmaUIPage");
 
 const PORT = process.env.PORT || 3001;
 
@@ -33,15 +34,6 @@ app.post("/api/process", upload.single("file"), (req, res) =>
   processMidi(res, `uploads/${req.file.filename}`, true)
 );
 
-app.get("/plasma/home", (req, res) => {
-  const fs = require("fs");
-  fs.readFile("./pages/home.json", "utf8", (err, jsonString) => {
-    if (err) {
-      res.status(500).send({ msg: "Error loading json" });
-      return;
-    }
-    res.status(200).send({ page: JSON.parse(jsonString) });
-  });
-});
+app.get("/plasma/:page", (req, res) => sendPlasmaUIPage(req.params.page, res));
 
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
