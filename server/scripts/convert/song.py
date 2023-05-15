@@ -2,6 +2,7 @@ import mido
 from . import exceptions
 from .note import Note
 from .output_event import OutputEvent
+import re
 
 class Song:
 	def __init__(self, midi: mido.MidiFile):
@@ -158,7 +159,7 @@ class Song:
 			num, name = instrument.split('!', 1)
 			out += [{
 				'num': int(num),
-				'name': name,
+				'name': re.sub(r'[^\x01-\x80]+', '', name),
 				'notes': [str(i) for i in self.result[instrument]]
 			}]
 		return out
