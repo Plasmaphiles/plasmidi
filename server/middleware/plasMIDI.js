@@ -1,6 +1,8 @@
 const { exec } = require("child_process");
 const { isProd } = require("../../isProd");
 
+const plasmidiPath = isProd("/app/", "../") + "server/scripts/plasmidi.py";
+
 const getTitle = path => {
   if (path.split("/")[0] === "uploads") return null;
 
@@ -8,23 +10,28 @@ const getTitle = path => {
   return bits[bits.length - 1].split(".")[0];
 };
 
-const plasMIDI = (req, res, next) => {
-  const plasmidiPath = isProd("/app/", "../") + "server/scripts/plasmidi.py";
-  const midiPath = req.file
+const runPython = (script, args = [], callback = () => {}) =>
+  exec(`python3 ${script} ${args.join(" ")}`, callback);
+
+const getMidiPath = req =>
+  req.file
     ? `uploads/${req.file.filename}`
     : `${isProd("server/", "")}midi/${req.params.name}.mid`;
 
-  exec(`python3 ${plasmidiPath} ${midiPath}`, (err, stdout) => {
-    res.status(err ? 500 : 200);
-    req.plasMIDI = err
-      ? "Error generating plasMIDI."
-      : {
-          tracks: JSON.parse(stdout),
-          title: getTitle(midiPath),
-        };
+const handleMiddleware = (req, res, next) => (err, stdout) => {
+  res.status(err ? 500 : 200);
+  req.plasMIDI = err
+    ? "Error generating plasMIDI."
+    : {
+        tracks: JSON.parse(stdout),
+        title: getTitle(getMidiPath(req)),
+      };
 
-    next();
-  });
+  next();
 };
+
+// Adds the requested plasMIDI to the req object as req.plasmaMIDI
+const plasMIDI = (req, res, next) =>
+  runPython(plasmidiPath, [getMidiPath(req)], handleMiddleware(req, res, next));
 
 module.exports = { plasMIDI };

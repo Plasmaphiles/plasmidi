@@ -1,4 +1,4 @@
-const sendPlasmaTypes = (req, res, next) => {
+const sendPlasmaTypes = (_req, res, next) => {
   res.sendPlasMIDI = function (plasMIDI) {
     res.send({ plasMIDI });
   };
