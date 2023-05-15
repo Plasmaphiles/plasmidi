@@ -1,10 +1,9 @@
-const { processMidi } = require("./helpers/process");
-
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { isProd } = require("../isProd");
-const { sendPlasmaUIPage } = require("./helpers/sendPlasmaUIPage");
+const { plasMIDI } = require("./middleware/plasMIDI");
+const { plasmaUI } = require("./middleware/plasmaUI");
+const { sendPlasmaTypes } = require("./middleware/sendPlasmaTypes");
 
 const PORT = process.env.PORT || 3001;
 
@@ -13,6 +12,7 @@ const upload = multer({ dest: "uploads/" });
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(sendPlasmaTypes);
 
 if (process.env.NODE_ENV === "production")
   app.use(express.static(path.join(__dirname, "../client/build")));
@@ -23,17 +23,17 @@ app.get("/", (_req, res) =>
 );
 
 // Serve the plasMIDI from a pre-hosted MIDI file
-app.get("/api/process/:name", (req, res) => {
-  const path = `${isProd("server/", "")}midi/${req.params.name}.mid`;
-
-  processMidi(res, path);
-});
-
-// Process the MIDI file using plasmidi.py and return the result
-app.post("/api/process", upload.single("file"), (req, res) =>
-  processMidi(res, `uploads/${req.file.filename}`, true)
+app.get("/api/process/:name", plasMIDI, (req, res) =>
+  res.sendPlasMIDI(req.plasMIDI)
 );
 
-app.get("/plasma/:page", (req, res) => sendPlasmaUIPage(req.params.page, res));
+// Process the MIDI file using plasmidi.py and return the result
+app.post("/api/process", upload.single("file"), plasMIDI, (req, res) =>
+  res.sendPlasMIDI(req.plasMIDI)
+);
+
+app.get("/plasma/:page", plasmaUI, (req, res) =>
+  res.sendPlasmaUI(req.plasmaUI)
+);
 
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
