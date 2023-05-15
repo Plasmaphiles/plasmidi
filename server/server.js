@@ -4,6 +4,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const { isProd } = require("../isProd");
+const { sendPlasmaUIPage } = require("./helpers/sendPlasmaUIPage");
 
 const PORT = process.env.PORT || 3001;
 
@@ -32,5 +33,7 @@ app.get("/api/process/:name", (req, res) => {
 app.post("/api/process", upload.single("file"), (req, res) =>
   processMidi(res, `uploads/${req.file.filename}`, true)
 );
+
+app.get("/plasma/:page", (req, res) => sendPlasmaUIPage(req.params.page, res));
 
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
