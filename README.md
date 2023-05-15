@@ -9,7 +9,14 @@ Upload a MIDI file and click the "Process file" button. After that, some text wi
 API routes can be used to directly query plasMIDI data. 
 
 Songs stored in the `server/midi` folder can be queried at the `/api/process/:name` route.
-For example, if you wanted to get the plasMIDI data for `server/midi/Waterloo.mid`, you could run the following JavaScript code (or make a similar request using software like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/)).
+For example, if you wanted to get the plasMIDI data for `server/midi/Waterloo.mid`, you could make a request using software like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/).
+
+```
+GET https://www.plasmidi.com/api/process/Waterloo
+POST https://www.plasmidi.com/api/process
+```
+
+When making a POST request in Insomnia, choose the Multipart form option for the body, and add a part to the form called 'file' and choose your midi file to send. 
 
 
 ## plasmidi.py
