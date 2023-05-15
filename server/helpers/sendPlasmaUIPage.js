@@ -3,7 +3,7 @@ const { isProd } = require("../../isProd");
 
 const sendPlasmaUIPage = (name, res) =>
   fs.readFile(
-    `${isProd("/app/server/", "./")}pages/${name}.json`,
+    `${isProd("server/", "./")}pages/${name}.json`,
     "utf8",
     (err, txt) =>
       err
