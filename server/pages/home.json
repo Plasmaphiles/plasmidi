@@ -1,7 +1,7 @@
 [
   {
     "md5Hash": null,
-    "imageIndex": 609,
+    "imageIndex": 0,
     "type": 3,
     "id": 0,
     "x": 0,
@@ -10,7 +10,8 @@
     "height": 512,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": null
   },
   {
     "text": "plasMIDI",
@@ -23,12 +24,13 @@
     "y": 448,
     "width": 680,
     "height": 64,
-    "colorR": 1.0,
-    "colorG": 1.0,
-    "colorB": 1.0
+    "colorR": 0.0,
+    "colorG": 0.0,
+    "colorB": 0.0,
+    "payload": null
   },
   {
-    "text": "About",
+    "text": "",
     "fontSize": 27,
     "horizontalAlignment": 0,
     "verticalAlignment": 0,
@@ -40,7 +42,8 @@
     "height": 64,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": null
   },
   {
     "text": "Welcome to plasMIDI.com! If you were to visit this site from your computer, you'd be able to upload a midi file to convert to plasMIDI so you can play it in Plasma!\n\nSince you're already here though, all you'll need to do is click a button to hear some sweet tunes!",
@@ -55,7 +58,8 @@
     "height": 192,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": null
   },
   {
     "text": "Samples",
@@ -70,7 +74,8 @@
     "height": 64,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": null
   },
   {
     "text": "SimpleScale.mid",
@@ -89,7 +94,8 @@
     "height": 32,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": ""
   },
   {
     "text": "Waterloo.mid",
@@ -108,7 +114,8 @@
     "height": 32,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": ""
   },
   {
     "text": "WaterlooMulti.mid",
@@ -127,7 +134,8 @@
     "height": 32,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": ""
   },
   {
     "text": "Suprise.mid",
@@ -146,7 +154,8 @@
     "height": 32,
     "colorR": 0.0,
     "colorG": 0.0,
-    "colorB": 0.0
+    "colorB": 0.0,
+    "payload": ""
   },
   {
     "text": "made by Leonardo1123 & SenorCluckens",
@@ -159,8 +168,9 @@
     "y": 0,
     "width": 680,
     "height": 40,
-    "colorR": 1.0,
-    "colorG": 1.0,
-    "colorB": 1.0
+    "colorR": 0.00209207716,
+    "colorG": 0.0,
+    "colorB": 0.0,
+    "payload": null
   }
 ]
