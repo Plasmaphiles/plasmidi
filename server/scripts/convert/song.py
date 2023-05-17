@@ -1,7 +1,7 @@
 import mido
 from . import exceptions
 from .note import Note
-from .output_event import OutputEvent
+from .output_event import OutputEvent, many_outputs
 import re
 
 class Song:
@@ -108,16 +108,17 @@ class Song:
 					events[track['name']][note.start] = [None] * overflows[track['name']]
 				events[track['name']][note.start][track_number - track_nums[track['name']]] = note
 
+		#Make sure all instruments have the events on the same beats.
+		times = set()
+		for instrument in events:
+			times = times | set(events[instrument].keys())
+
+		for instrument in events:
+			for timestamp in times - set(events[instrument].keys()):
+				events[instrument][timestamp] = []
+
 		self.triggers = {}
 		for instrument in events:
-			#Insert 'sync' pseudo-notes periodically.
-			step_size = 5000
-			for i in range(step_size, self.total_ticks, step_size):
-				if i not in events[instrument]:
-					events[instrument][i] = ['SYNC'] #Sync flag
-				else:
-					events[instrument][i].insert(0, 'SYNC')
-
 			#Dummy note to make sure all instruments start at the correct time.
 			first_notes_index = next(iter(events[instrument].keys()))
 			triggers = [{
@@ -154,6 +155,17 @@ class Song:
 		return self
 
 	def output(self) -> dict:
+		#Make a master track with all the instruments together
+		master_out = {
+			'num': -1,
+			'name': 'ALL',
+			'notes': []
+		}
+		note_count = len( self.result[ next(iter(self.result.keys())) ] )
+		for i in range(note_count):
+			master_out['notes'] += [ many_outputs([self.result[instrument][i] for instrument in self.result]) ]
+
+		#Get all the other tracks separately
 		out = []
 		for instrument in self.result:
 			num, name = instrument.split('!', 1)
@@ -162,6 +174,8 @@ class Song:
 				'name': re.sub(r'[^\x01-\x80]+', '', name),
 				'notes': [str(i) for i in self.result[instrument]]
 			}]
+
+		out += [master_out]
 		return out
 
 	def process(self, split_chords: bool = True) -> object:
