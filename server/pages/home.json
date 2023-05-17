@@ -98,7 +98,7 @@
     "payload": null
   },
   {
-    "text": "SimpleScale.mid",
+    "text": "Simple-Scale.mid",
     "fontSize": 18,
     "backgroundColorR": 0.68235296,
     "backgroundColorG": 0.68235296,
@@ -115,7 +115,7 @@
     "colorR": 0.0,
     "colorG": 0.0,
     "colorB": 0.0,
-    "payload": ""
+    "payload": "play:https://www.plasmidi.com/api/process/Simple-Scale"
   },
   {
     "text": "Waterloo.mid",
@@ -138,7 +138,7 @@
     "payload": "play:https://www.plasmidi.com/api/process/Waterloo"
   },
   {
-    "text": "WaterlooMulti.mid",
+    "text": "Waterloo-Multi.mid",
     "fontSize": 18,
     "backgroundColorR": 0.68235296,
     "backgroundColorG": 0.68235296,
@@ -155,7 +155,7 @@
     "colorR": 0.0,
     "colorG": 0.0,
     "colorB": 0.0,
-    "payload": ""
+    "payload": "play:https://www.plasmidi.com/api/process/Waterloo-Multi"
   },
   {
     "text": "Suprise.mid",
@@ -175,7 +175,7 @@
     "colorR": 0.0,
     "colorG": 0.0,
     "colorB": 0.0,
-    "payload": ""
+    "payload": "play:https://www.plasmidi.com/api/process/Suprise"
   },
   {
     "text": "made by Leonardo1123 & SenorCluckens",
