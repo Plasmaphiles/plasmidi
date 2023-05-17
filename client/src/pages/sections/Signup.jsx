@@ -19,9 +19,7 @@ const Signup = () => {
     setUser({ username: "", password: "", confirm: "" });
   };
 
-  FormGroup.defaultProps = {
-    action: "signup",
-  };
+  FormGroup.defaultProps = { action: "signup" };
 
   return (
     <Section title="Signup">

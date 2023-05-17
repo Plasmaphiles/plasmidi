@@ -12,9 +12,7 @@ const Login = () => {
     setUser({ username: "", password: "" });
   };
 
-  FormGroup.defaultProps = {
-    action: "login",
-  };
+  FormGroup.defaultProps = { action: "login" };
 
   return (
     <Section title="Login">
