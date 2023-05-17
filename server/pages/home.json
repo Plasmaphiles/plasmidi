@@ -135,7 +135,7 @@
     "colorR": 0.0,
     "colorG": 0.0,
     "colorB": 0.0,
-    "payload": ""
+    "payload": "play:https://www.plasmidi.com/api/process/Waterloo"
   },
   {
     "text": "WaterlooMulti.mid",
