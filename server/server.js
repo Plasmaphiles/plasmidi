@@ -36,4 +36,8 @@ app.get("/plasma/:page", plasmaUI, (req, res) =>
   res.sendPlasmaUI(req.plasmaUI)
 );
 
+app.get("*", (_req, res) =>
+  res.status(200).sendFile(path.join(__dirname, "../client/build/index.html"))
+);
+
 app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
