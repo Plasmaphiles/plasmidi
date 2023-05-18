@@ -1,45 +1,41 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import Section from "../../components/Section";
+import FormGroup from "../../components/FormGroup";
 
 const Login = () => {
-  const [loginCreds, setLoginCreds] = useState({ username: "", password: "" });
-  const handleLogin = event => {
-    event.preventDefault();
-    console.table(loginCreds);
+  const blankUser = {
+    username: "",
+    password: "",
+  };
 
-    setLoginCreds({ username: "", password: "" });
+  const [user, setUser] = useState({ ...blankUser });
+
+  const handleLogin = () => {
+    console.table(user);
+
+    setUser({ ...blankUser });
   };
 
   return (
-    <Section title="Login">
-      <Form onSubmit={handleLogin}>
-        <Form.Group className="mb-3" controlId="formLoginUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="username"
-            placeholder="Enter username"
-            value={loginCreds.username}
-            onChange={e =>
-              setLoginCreds({ ...loginCreds, username: e.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formLoginPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={loginCreds.password}
-            onChange={e =>
-              setLoginCreds({ ...loginCreds, password: e.target.value })
-            }
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+    <Section title="Login" form={true}>
+      <FormGroup action="Login" title="Username">
+        <Form.Control
+          type="username"
+          placeholder="username"
+          value={user.username}
+          onChange={e => setUser({ ...user, username: e.target.value })}
+        />
+      </FormGroup>
+      <FormGroup action="Login" title="Password">
+        <Form.Control
+          type="password"
+          placeholder="password"
+          value={user.password}
+          onChange={e => setUser({ ...user, password: e.target.value })}
+        />
+      </FormGroup>
+      <Button onClick={handleLogin}>Submit</Button>
     </Section>
   );
 };

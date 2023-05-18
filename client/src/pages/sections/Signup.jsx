@@ -1,64 +1,53 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import Section from "../../components/Section";
+import FormGroup from "../../components/FormGroup";
 
 const Signup = () => {
-  const [signupCreds, setSignupCreds] = useState({
+  const blankUser = {
     username: "",
     password: "",
     confirm: "",
-  });
+  };
 
-  const handleSignup = event => {
-    event.preventDefault();
-    console.table(signupCreds);
+  const [user, setUser] = useState({ ...blankUser });
 
-    if (signupCreds.password !== signupCreds.confirm)
+  const handleSignup = () => {
+    console.table(user);
+
+    if (user.password !== user.confirm)
       return alert("Password and Confirmation do not match.");
 
-    setSignupCreds({ username: "", password: "", confirm: "" });
+    setUser({ ...blankUser });
   };
 
   return (
-    <Section title="Signup">
-      <Form onSubmit={handleSignup}>
-        <Form.Group className="mb-3" controlId="formSignupUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="username"
-            placeholder="Enter username"
-            value={signupCreds.username}
-            onChange={e =>
-              setSignupCreds({ ...signupCreds, username: e.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formSignupPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={signupCreds.password}
-            onChange={e =>
-              setSignupCreds({ ...signupCreds, password: e.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formSignupConfirm">
-          <Form.Label>Confirm</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            value={signupCreds.confirm}
-            onChange={e =>
-              setSignupCreds({ ...signupCreds, confirm: e.target.value })
-            }
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+    <Section title="Signup" form={true}>
+      <FormGroup action="Signup" title="Username">
+        <Form.Control
+          type="username"
+          placeholder="username"
+          value={user.username}
+          onChange={e => setUser({ ...user, username: e.target.value })}
+        />
+      </FormGroup>
+      <FormGroup action="Signup" title="Password">
+        <Form.Control
+          type="password"
+          placeholder="password"
+          value={user.password}
+          onChange={e => setUser({ ...user, password: e.target.value })}
+        />
+      </FormGroup>
+      <FormGroup action="Signup" title="Confirm">
+        <Form.Control
+          type="password"
+          placeholder="confirm"
+          value={user.confirm}
+          onChange={e => setUser({ ...user, confirm: e.target.value })}
+        />
+      </FormGroup>
+      <Button onClick={handleSignup}>Submit</Button>
     </Section>
   );
 };
