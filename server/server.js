@@ -18,9 +18,9 @@ if (process.env.NODE_ENV === "production")
   app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Home page render
-app.get("/", (_req, res) =>
-  res.status(200).sendFile(path.join(__dirname, "../client/build/index.html"))
-);
+// app.get("/", (_req, res) =>
+//   res.status(200).sendFile(path.join(__dirname, "../client/build/index.html"))
+// );
 
 // Serve the plasMIDI from a pre-hosted MIDI file
 app.get("/api/process/:name", plasMIDI, (req, res) =>
@@ -36,6 +36,7 @@ app.get("/plasma/:page", plasmaUI, (req, res) =>
   res.sendPlasmaUI(req.plasmaUI)
 );
 
+// TODO: Ask Gary why I seem to need this in Heroku
 app.get("*", (_req, res) =>
   res.status(200).sendFile(path.join(__dirname, "../client/build/index.html"))
 );

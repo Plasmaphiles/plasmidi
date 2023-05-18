@@ -4,6 +4,7 @@ import rg4js from "raygun4js";
 
 import Home from "./pages/Home";
 import LoginForm from "./pages/Login";
+import Error404 from "./pages/Error404";
 
 rg4js("apiKey", "RFXwCYSCxlOV8C8v6cX3g");
 rg4js("enablePulse", true);
@@ -13,6 +14,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginForm />} />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   </Router>
 );
