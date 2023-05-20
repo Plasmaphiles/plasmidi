@@ -14,8 +14,8 @@ const About = () => (
     </p>
     <p>
       That's where we come in. We made this tool to allow you to upload any MIDI
-      file and get a text representation of the music in a formatted text format
-      that's able to be further worked with in Plasma.
+      file and get back text that's actually able to be directly handled in
+      Plasma.
     </p>
   </Section>
 );
