@@ -8,7 +8,9 @@ const HowToUse = () => (
       there tends to be a lot of text in the output, so click on the Copy to
       Clipboard button and then you can return to Plasma to paste that text into
       our music-playing device. You can find it by searching for it by ID in the
-      Device Browser window of Plasma. <b>ID: 2976840481</b>
+      Device Browser window of Plasma. <br />
+      Browser: <b>ID: 2978051808</b> <br />
+      Jukebox: <b>ID: 2978036963</b>
     </p>
   </Section>
 );
