@@ -3,12 +3,17 @@ import Section from "../../components/Section";
 const Limitations = () => (
   <Section title="Limitations">
     <p>
-      Right now, there is no way to play two instruments at the same time in
-      sync. Because there are variations in the processing time of different
-      instruments, slightly different delays will be introduced into their
-      outputs. These delays are not noticible in a single instrument, but their
-      difference compounds over time and the two tracks will drift apart. We are
-      working on this.
+      We have not finished mapping all the possible MIDI instruments to the
+      limited selection of Plasma instruments. Right now everything plays as
+      Keys. We're planning on implementing this feature. Likewise, we have not
+      mapped every drum sound to the available Plasma drum sounds. We plan on
+      adding this too, but be warned that any MIDI file with drums will likely
+      have some atonal nonsense happening on top of the song.
+    </p>
+    <p>
+      There are limited song options. We have plans to have more songs
+      pre-loaded on the server to expand the amount of music users have access
+      to. We're exploring routes for implementing this functionality.
     </p>
     <p>
       The text is very large. It may take a while to paste into Plasma, and if

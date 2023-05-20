@@ -17,14 +17,6 @@ const About = () => (
       file and get a text representation of the music in a formatted text format
       that's able to be further worked with in Plasma.
     </p>
-    <p>
-      In order to easily use this text format for music production, we've made
-      our own device that is designed to play notes when given text in this
-      format. You can find it by searching for it by ID in the Device Browser
-      window of Plasma. <br />
-      Browser: <b>ID: 2978051808</b> <br />
-      Jukebox: <b>ID: 2978036963</b>
-    </p>
   </Section>
 );
 
