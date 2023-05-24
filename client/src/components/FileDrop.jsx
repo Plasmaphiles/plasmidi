@@ -34,7 +34,7 @@ const FileDrop = ({ setResponse = () => {} }) => {
     onChange: handleUpload,
     value: dropFiles,
     maxFiles: 1,
-    accept: ".mid, .midi",
+    accept: ".mid, .midi, .MID, .MIDI",
   };
 
   return (
