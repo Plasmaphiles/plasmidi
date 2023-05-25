@@ -16,6 +16,8 @@ def compress(sequence: list) -> str:
 		#1 byte for each track indicates the number of notes the track may have at a time
 		result += chord.to_bytes(1, byteorder = 'big', signed = False)
 
+	previous = {}
+	current = 0
 	for event in sequence:
 		track, delay = event.split('|')
 		notes = track.replace('&', '+').split('+')
@@ -28,7 +30,14 @@ def compress(sequence: list) -> str:
 
 				tone, octave, volume = note.split('/')
 				note_byte = len(tones) * int(octave) + tones.index(tone)
-				result += bytes([note_byte, int(volume)])
+				group = bytes([note_byte, int(volume)])
+				if group in previous and (current - previous[group] < 128):
+					group = bytes([128 + current - previous[group]])
+					previous[group] = current
+				else:
+					previous[group] = current
+
+				current += 1
 			else:
 				zeroes += 1
 
@@ -39,4 +48,4 @@ def compress(sequence: list) -> str:
 		#3 bytes at the end of each line represent the delay
 		result += int(delay.replace('.', '')).to_bytes(3, byteorder = 'big', signed = False)
 
-	return base64.b64encode(result).decode('utf-8')
+	return base64.b85encode(result).decode('utf-8')
