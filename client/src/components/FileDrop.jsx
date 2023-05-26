@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Dropzone, FileMosaic } from "@files-ui/react";
-// import ReactMidiPlayer from "react-midi-player";
 
 import FH from "../helpers/file";
 
-const FileDrop = ({ setResponse = () => {} }) => {
+const FileDrop = ({ setResponse = () => {}, midiFile, setMidiFile }) => {
   const [dropFiles, setDropFiles] = useState([]);
-  const [midiFile, setMidiFile] = useState(null);
 
   // Send the MIDI file to the server to be parsed by the Python and returned
   const process = () => FH.sendFile(midiFile).then(setResponse);
@@ -25,9 +23,9 @@ const FileDrop = ({ setResponse = () => {} }) => {
     setMidiFile(null);
   };
 
-  const handleUpload = files => {
+  const handleUpload = (files) => {
     setDropFiles(files);
-    setMidiFile(files[0].file);
+    setMidiFile(files[0] ? files[0].file : null);
   };
 
   const dropzoneOptions = {
@@ -40,7 +38,7 @@ const FileDrop = ({ setResponse = () => {} }) => {
   return (
     <>
       <Dropzone {...dropzoneOptions}>
-        {dropFiles.map(file => (
+        {dropFiles.map((file) => (
           <FileMosaic key={file.id} {...file} onDelete={removeFile} info />
         ))}
       </Dropzone>

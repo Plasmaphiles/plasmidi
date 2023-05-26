@@ -9,6 +9,7 @@ import Samples from "./sections/Samples";
 import Upload from "./sections/Upload";
 import Output from "./sections/Output";
 import About from "./sections/About";
+import MidiPlayer from "../components/MidiPlayer";
 
 import MH from "../helpers/plasmidi";
 import Limitations from "./sections/Limitations";
@@ -16,6 +17,7 @@ import Limitations from "./sections/Limitations";
 const Home = () => {
   const [response, setResponse] = useState("");
   const [plasMIDI, setPlasMIDI] = useState("");
+  const [midiFile, setMidiFile] = useState(null);
 
   useEffect(() => {
     if (response)
@@ -26,7 +28,12 @@ const Home = () => {
     <>
       <Header>plasMIDI</Header>
 
-      <Upload setResponse={setResponse} />
+      <Upload
+        midiFile={midiFile}
+        setMidiFile={setMidiFile}
+        setResponse={setResponse}
+      />
+      <MidiPlayer midiFile={midiFile} />
       <Output plasMIDI={plasMIDI} />
       <Download />
       <HowToUse />
