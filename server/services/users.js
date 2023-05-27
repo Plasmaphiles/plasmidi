@@ -1,11 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
+const { db } = require("../prisma/db");
 
-const prisma = new PrismaClient({
-  datasources: { db: { url: process.env.MONGODB_URL } },
-});
+const addUser = (user) => db.user.create({ data: { ...user } });
 
-const addUser = (user) => prisma.user.create({ data: { ...user } });
-
-const getUser = (id) => prisma.user.findUnique({ where: { id } });
+const getUser = (id) => db.user.findUnique({ where: { id } });
 
 module.exports = { addUser, getUser };
