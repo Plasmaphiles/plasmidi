@@ -2,7 +2,7 @@
 
 .PHONY: sh
 sh: ## Get a terminal with Bash.
-	docker-compose exec server /bin/ash
+	docker-compose exec server bash
 
 .PHONY: logs
 logs: ## Tail the logs, locally.
@@ -11,6 +11,10 @@ logs: ## Tail the logs, locally.
 .PHONY: up
 up: ## Spin up a dev suite of containers.
 	docker-compose up -d
+
+.PHONY: generate
+generate: ## a one time use command needed to setup the db after the creation of the containers
+	docker-compose exec -ti server npx prisma generate --schema server/prisma/schema.prisma 
 
 .PHONY: migrate
 migrate: ## push db changes to the db.
@@ -22,10 +26,10 @@ down: ## Stops up containers.
 
 .PHONY: db
 db: ## attach to the db cli
-	docker-compose exec -ti mongo mongosh -u "mongoadmin" -p "secret"
+	docker-compose exec -ti mongo mongo --host=mongo --port=27018 -u "mongoadmin" -p "secret"
 
 .PHONY: create
-create: up migrate ## create a local env from nothing
+create: up generate migrate ## create a local env from nothing
 
 
 # https://www.freecodecamp.org/news/self-documenting-makefile/

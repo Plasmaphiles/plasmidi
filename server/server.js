@@ -4,6 +4,7 @@ const path = require("path");
 const { plasMIDI } = require("./middleware/plasMIDI");
 const { plasmaUI } = require("./middleware/plasmaUI");
 const { sendPlasmaTypes } = require("./middleware/sendPlasmaTypes");
+const { addUser, getUser } = require("./services/users");
 
 const PORT = process.env.PORT || 3001;
 
@@ -35,6 +36,16 @@ app.post("/api/process", upload.single("file"), plasMIDI, (req, res) =>
 app.get("/plasma/:page", plasmaUI, (req, res) =>
   res.sendPlasmaUI(req.plasmaUI)
 );
+
+app.post("/api/user", async (req, res) => {
+  const user = await addUser(req.body);
+  res.send(user);
+});
+
+app.get("/api/user/:userId", async (req, res) => {
+  const user = await getUser(req.params.userId);
+  res.send(user);
+});
 
 // TODO: Ask Gary why I seem to need this in Heroku
 app.get("*", (_req, res) =>

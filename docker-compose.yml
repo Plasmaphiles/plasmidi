@@ -1,12 +1,18 @@
 services:
   mongo:
+    build:
+      context: .
+      dockerfile: ./docker/dockerfile.mongodb-replica.yml
+    container_name: plasmidi-mongo
     ports:
-      - "27017:27017"
+      - '27018:27018'
     networks:
       - plasimidi-network
     volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-    container_name: plasmidi-mongo
+      # seed data can be created at ./init-mongo.js
+      # - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      # volume to persist data locally
+      - mongo-data:/data/db
     restart: always
     logging:
       options:
@@ -14,8 +20,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: secret
-      MONGO_INITDB_DATABASE: /plasmidi
-    image: mongo
+      MONGO_REPLICA_PORT: 27018
   server:
     container_name: plasmidi-server
     depends_on:
@@ -24,15 +29,20 @@ services:
       context: .
       dockerfile: ${DOCKER_ENVFILE_PATH:-docker/dockerfile.dev.yml}
     environment:
-      MONGODB_URL: mongodb://mongoadmin:secret@mongo:27017/plasmidi?authSource=admin
+      MONGODB_URL: mongodb://mongoadmin:secret@mongo:27018/plasmidi?directConnection=true&authSource=admin
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: secret
     networks:
       - plasimidi-network
     ports:
       - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./:/src
 networks:
   plasimidi-network:
     driver: bridge
+volumes:
+  mongo-data:
+
+
