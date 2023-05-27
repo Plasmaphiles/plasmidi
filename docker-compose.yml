@@ -1,0 +1,34 @@
+services:
+  mongo:
+    ports:
+      - "27017:27017"
+    container_name: plasmidi-mongo
+    restart: always
+    logging:
+      options:
+        max-size: 1g
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: plasmidi
+    image: mongo
+  server:
+    container_name: plasmidi-server
+    depends_on:
+      - mongo
+    build:
+      context: .
+      dockerfile: ${DOCKER_ENVFILE_PATH:-docker/dockerfile.dev.yml}
+    environment:
+      MONGODB_URL: mongodb://plasmidi-mongo:27017/plasmidi
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - plasimidi-network
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/src
+networks:
+  plasimidi-network:
+    driver: bridge
