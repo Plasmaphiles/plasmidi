@@ -4,6 +4,8 @@ services:
       - "27017:27017"
     networks:
       - plasimidi-network
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
     container_name: plasmidi-mongo
     restart: always
     logging:
@@ -12,7 +14,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: secret
-      MONGO_INITDB_DATABASE: plasmidi
+      MONGO_INITDB_DATABASE: /plasmidi
     image: mongo
   server:
     container_name: plasmidi-server
@@ -22,7 +24,7 @@ services:
       context: .
       dockerfile: ${DOCKER_ENVFILE_PATH:-docker/dockerfile.dev.yml}
     environment:
-      MONGODB_URL: mongodb://plasmidi-mongo:27017/plasmidi
+      MONGODB_URL: mongodb://mongoadmin:secret@mongo:27017/plasmidi?authSource=admin
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: secret
     networks:

@@ -54,7 +54,7 @@ python3 path/to/plasmidi.py path/to/my_file.mid 3 "DRUMS" | clip.exe
 
 If you want to contribute to the web part of the project, you'll need to run the server locally to test it. You'll need to have [Node.js](https://nodejs.org/) installed in order to run the server. Once you have it, enter the following commands to clone and move to the server, then install all the dependencies and launch it.
 
-**If you have docker:** the command `make dev` will create a local enviroment
+**If you have docker:** the command `make create` will create a local enviroment
 
 ```bash
 git clone https://github.com/ZacharyWesterman/plasmidi
