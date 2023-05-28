@@ -1,6 +1,5 @@
 input_text = V1
-EXISTING_NOTES = V2
-STATE_VARS = V3
+CHUNK_SIZE = 200
 
 if input_text == '' then return end
 
@@ -14,10 +13,6 @@ end
 
 --returns an iterator to get bytes off the stream one by one
 function b85decode(text)
-	local i = 1
-	local b = 0
-	local bytes = {}
-
 	--convert an integer into 4 bytes
 	local int2bytes = function(integer)
 		local i
@@ -31,18 +26,18 @@ function b85decode(text)
 
 	--main iterator: returns one byte at a time
 	return function(replace_groups)
-		if i <= #text and b == 0 then
+		if i_b85 <= #text and b == 0 then
 			local k
 			local integer = 0
 			for k = 0, 4 do
-				if i+k <= #text then
-					local chr = text:sub(i+k, i+k)
+				if i_b85+k <= #text then
+					local chr = text:sub(i_b85+k, i_b85+k)
 					integer = integer * 85 + B85_LKUP[chr]
 				else
 					integer = integer * 85
 				end
 			end
-			i = i + 5
+			i_b85 = i_b85 + 5
 			bytes = int2bytes(integer)
 			b = #bytes
 		end
@@ -118,35 +113,23 @@ function join(array, delim)
 	return result
 end
 
---[[Open byte stream for decoded data]]
-stream = b85decode(input_text)
-
---[[Read table of most common byte groups]]
-COMMON_GROUPS = {}
-group_ct = stream() --first byte is num of groups (max 126)
-for i=128, 128 + group_ct - 1 do
-	group_sz = stream() --number of bytes in group
-	COMMON_GROUPS[i] = read(stream, group_sz)
+function split(text, delim)
+	local result = {}
+	local value
+	for value in text:gmatch('[^'..delim..']+') do
+		table.insert(result, value)
+	end
+	return result
 end
 
---[[Track count]]
-TRACK_COUNT = bytes2int(read(stream, 4, COMMON_GROUPS))
---[[List of note count on each track]]
-chords = read(stream, TRACK_COUNT, COMMON_GROUPS)
---[[Number of 'note' events]]
-EVENT_COUNT = bytes2int(read(stream, 4, COMMON_GROUPS))
-EVENT_START = 1
-
-print(('<color=#D6C156>Received %dB of compressed PlasMIDI data.</color>'):format(#input_text))
-print('  Track count = ' .. TRACK_COUNT)
-print('  Chord size of each track = ['..join(chords, ', ')..']')
-print('  Note event count = ' .. EVENT_COUNT)
-print('Decompressing data...')
-
-tones = {'A','A#','B','C','C#','D','D#','E','F','F#','G','G#'}
-
-previous = {}
-current = 0
+function split_nums(text, delim)
+	local result = {}
+	local value
+	for value in text:gmatch('[^'..delim..']+') do
+		table.insert(result, tonumber(value))
+	end
+	return result
+end
 
 function read_event()
 	tracks = {}
@@ -154,12 +137,12 @@ function read_event()
 		notes = {}
 
 		note_num = 1
-		while note_num <= chords[track_num] do
+		while note_num <= CHORDS[track_num] do
 			b1 = stream(COMMON_GROUPS)
 
 			if b1 == 254 then --No events for this chord, just 1 byte for this
 				table.insert(notes, ' ')
-				note_num = chords[track_num] + 1
+				note_num = CHORDS[track_num] + 1
 			elseif b1 == 255 then --Null note, just 1 byte for this note
 				table.insert(notes, ' ')
 				note_num = note_num + 1
@@ -180,10 +163,115 @@ function read_event()
 	return join({join(tracks, '&'), delay}, '|')
 end
 
-ALL_NOTES = {}
-for _=EVENT_START, EVENT_COUNT do
-	table.insert(ALL_NOTES, read_event())
+function INIT_STATE()
+	--Default values for global vars, these get changed later when the state is loaded
+	ALL_NOTES = {}
+	EVENT_COUNT = 0
+	EVENT_START = 1
+	i_b85 = 1
+	b = 0
+	bytes = {}
+	CHORDS = {}
+	COMMON_GROUPS = {}
 end
 
-print('Done.')
-output_array(ALL_NOTES, 1)
+
+function SAVE_STATE()
+	local context = {
+		join(ALL_NOTES, '@'),
+		tostring(EVENT_COUNT),
+		tostring(EVENT_START),
+		tostring(TRACK_COUNT),
+		tostring(i_b85),
+		tostring(b),
+		join(bytes, ','),
+		join(CHORDS, ',')
+	}
+
+	local key
+	local value
+	local grp = {}
+	for key, value in pairs(COMMON_GROUPS) do
+		table.insert(grp, string.format('%s|%s', key, join(value,',')))
+	end
+	table.insert(context, join(grp, '@'))
+	return context
+end
+
+function LOAD_STATE(context)
+	ALL_NOTES = split(context[1], '@')
+	EVENT_COUNT = tonumber(context[2])
+	EVENT_START = tonumber(context[3])
+	TRACK_COUNT = tonumber(context[4])
+	i_b85 = tonumber(context[5])
+	b = tonumber(context[6])
+	bytes = split_nums(context[7], ',')
+	CHORDS = split_nums(context[8], ',')
+
+	COMMON_GROUPS = {}
+	local _
+	local value
+	for _, value in pairs(split(context[9], '@')) do
+		local items = split(value, '|')
+		COMMON_GROUPS[tonumber(items[1])] = split_nums(items[2], ',')
+	end
+end
+
+function BEGIN()
+	INIT_STATE()
+
+	--[[Open byte stream for decoded data]]
+	stream = b85decode(input_text)
+
+	--[[Read table of most common byte groups]]
+	COMMON_GROUPS = {}
+	group_ct = stream() --first byte is num of groups (max 126)
+	for i=128, 128 + group_ct - 1 do
+		group_sz = stream() --number of bytes in group
+		COMMON_GROUPS[i] = read(stream, group_sz)
+	end
+
+	--[[Track count]]
+	TRACK_COUNT = bytes2int(read(stream, 4, COMMON_GROUPS))
+	--[[List of note count on each track]]
+	CHORDS = read(stream, TRACK_COUNT, COMMON_GROUPS)
+	--[[Number of 'note' events]]
+	EVENT_COUNT = bytes2int(read(stream, 4, COMMON_GROUPS))
+	EVENT_START = 1
+
+	print(('<color=#D6C156>Received %dB of compressed PlasMIDI data.</color>'):format(#input_text))
+	print('  Track count = ' .. TRACK_COUNT)
+	print('  Chord size of each track = ['..join(CHORDS, ', ')..']')
+	print('  Note event count = ' .. EVENT_COUNT)
+	print('Decompressing data...')
+
+	tones = {'A','A#','B','C','C#','D','D#','E','F','F#','G','G#'}
+
+	ALL_NOTES = {}
+
+	output_array(SAVE_STATE(), 2) --Continue processing later
+end
+
+function CONTINUE()
+	INIT_STATE()
+	LOAD_STATE(V2)
+
+	if ALL_NOTES == nil then ALL_NOTES = {} end
+
+	evt_end = math.min(EVENT_COUNT, EVENT_START + CHUNK_SIZE)
+	for _=EVENT_START, evt_end do
+		table.insert(ALL_NOTES, read_event())
+	end
+	EVENT_START = evt_end
+
+	print(('%d%%'):format(math.floor(evt_end * 100 / EVENT_COUNT)))
+
+	if evt_end >= EVENT_COUNT then
+		print('Done.')
+		output_array(ALL_NOTES, 1) --Done processing
+	else
+		output_array(SAVE_STATE(), 2) --Continue processing later
+	end
+end
+
+BEGIN()
