@@ -2,6 +2,7 @@ import mido
 import sys
 import json
 from convert import Song
+from compress import compress
 
 if len(sys.argv) < 2:
     print('Convert a MIDI file to a format that\'s easy to parse in Plasma.\n')
@@ -20,5 +21,8 @@ if len(tracks):
         if str(track['num']) in tracks or track['name'] in tracks:
             tmp += [track]
     notes = tmp
+
+for i, _ in enumerate(notes):
+    notes[i]['notes_compressed'] = compress(notes[i]['notes'])
 
 print(json.dumps(notes))
