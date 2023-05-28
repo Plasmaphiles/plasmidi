@@ -46,7 +46,10 @@ def compress(sequence: list) -> str:
 				result += group
 
 		#3 bytes at the end of each line represent the delay
-		result += int(delay.replace('.', '')).to_bytes(3, byteorder = 'little', signed = False)
+		delay = delay.replace('.', '')
+		if len(delay) % 2:
+			delay = '0' + delay
+		result += bytes([int(delay[i:i+2]) for i in range(0, len(delay), 2)])
 
 
 	# AFTER SERIALIZING, Compress a little more!

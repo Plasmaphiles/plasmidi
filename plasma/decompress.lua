@@ -158,7 +158,8 @@ function read_event()
 		table.insert(tracks, join(notes, '+'))
 	end
 
-	delay = bytes2int(read(stream, 3, COMMON_GROUPS)) / 10000
+	d_bytes = read(stream, 3, COMMON_GROUPS)
+	delay = d_bytes[1]..'.'..d_bytes[2]..d_bytes[3]
 
 	return join({join(tracks, '&'), delay}, '|')
 end
@@ -262,7 +263,7 @@ function CONTINUE()
 	for _=EVENT_START, evt_end do
 		table.insert(ALL_NOTES, read_event())
 	end
-	EVENT_START = evt_end
+	EVENT_START = evt_end + 1
 
 	print(('%d%%'):format(math.floor(evt_end * 100 / EVENT_COUNT)))
 
