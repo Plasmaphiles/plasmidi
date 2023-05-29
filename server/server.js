@@ -43,7 +43,6 @@ app.post("/api/user", async (req, res) => {
 });
 
 app.get("/api/user/:userId", async (req, res) => {
-  console.log(req.params.userId);
   const user = await getUser(req.params.userId);
   res.send(user);
 });
