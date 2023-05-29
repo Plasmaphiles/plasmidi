@@ -14,8 +14,12 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:userId", async (req, res) => {
-  const user = await getUser(req.params.userId);
-  res.send(user);
+  try {
+    const user = await getUser(req.params.userId);
+    res.send(user);
+  } catch ({ code }) {
+    prismaErrorHandler(res, code);
+  }
 });
 
 module.exports = router;
