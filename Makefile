@@ -34,7 +34,7 @@ down: ## Stops up containers.
 
 .PHONY: db
 db: ## attach to the db cli
-	docker-compose exec -ti plasmidi-postgres psql -d plasmidi
+	docker-compose exec -ti plasmidi-postgres psql plasmidi
 
 .PHONY: create
 create: up generate migrate ## create a local env from nothing
