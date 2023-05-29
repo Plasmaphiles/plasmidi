@@ -16,9 +16,17 @@ up: ## Spin up a dev suite of containers.
 generate: ## a one time use command needed to setup the db after the creation of the containers
 	docker-compose exec -ti server prisma generate --schema server/prisma/schema.prisma 
 
+.PHONY: reset
+reset: ## throws away migrations and reapplies them. useful during test make apply
+	docker-compose exec -ti server prisma migrate reset --schema server/prisma/schema.prisma
+
+.PHONY: apply
+apply: ## apply a new migration to the database. used when modiying the prisma schema locally
+	docker-compose exec -ti server prisma db push --schema server/prisma/schema.prisma
+
 .PHONY: migrate
 migrate: ## push db changes to the db.
-	docker-compose exec -ti server prisma db push --schema server/prisma/schema.prisma
+	docker-compose exec -ti server prisma migrate deploy --schema server/prisma/schema.prisma
 
 .PHONY: down
 down: ## Stops up containers.
