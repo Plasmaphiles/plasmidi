@@ -69,6 +69,16 @@ to use the Makefile, type `make help` into a terminal to see the available comma
 
 `make dev` is a useful command that spins a working version of the app up in a containerized environment
 
+# Migrations
+
+this project uses prisma as it's ORM and is currently using postgres as it's database implementation.
+
+**Note:** with postgres being a relational database, changes to the schema must be preserved as migrations. when changing the prisma.schema file, run this command
+
+```
+docker compose exec plasmidi-server prisma migrate dev --schema server/prisma/schema.prisma --name "title of changes"
+```
+
 # Limitations
 
 Right now, there is no way to play two instruments at the same time in sync. Because there are variations in the processing time of different instruments, slightly different delays will be introduced into their outputs. These delays are not noticible in a single instrument, but their difference compounds over time and the two tracks will drift apart. We are working on this.

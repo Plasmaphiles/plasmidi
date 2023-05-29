@@ -1,37 +1,32 @@
 services:
-  mongo:
-    build:
-      context: .
-      dockerfile: ./docker/dockerfile.mongodb-replica.yml
-    container_name: plasmidi-mongo
+  plasmidi-postgres:
+    container_name: plasmidi-postgres
+    image: postgres:10.19
     ports:
-      - '27018:27018'
+      - "5439:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: plasmidi
     networks:
       - plasimidi-network
     volumes:
-      # seed data can be created at ./init-mongo.js
-      # - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-      # volume to persist data locally
-      - mongo-data:/data/db
+      - plasmidi-data:/var/lib/postgresql/data
+      #        point this towards the file you would like to load up
+      - ./build/db_dump.sql:/docker-entrypoint-initdb.d/db_dump.sql
+      - ./etc/psqlrc:/var/lib/postgresql/.psqlrc
     restart: always
-    logging:
-      options:
-        max-size: 1g
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongoadmin
-      MONGO_INITDB_ROOT_PASSWORD: secret
-      MONGO_REPLICA_PORT: 27018
+    user: postgres
   server:
     container_name: plasmidi-server
     depends_on:
-      - mongo
+      - plasmidi-postgres
     build:
       context: .
       dockerfile: ${DOCKER_ENVFILE_PATH:-docker/dockerfile.dev.yml}
     environment:
-      MONGODB_URL: mongodb://mongoadmin:secret@mongo:27018/plasmidi?directConnection=true&authSource=admin
-      MONGO_INITDB_ROOT_USERNAME: mongoadmin
-      MONGO_INITDB_ROOT_PASSWORD: secret
+      # this is using the port 5432 since it's connecting through the docker network 
+      DATABASE_URL: postgresql://postgres:secret@plasmidi-postgres:5432/plasmidi?schema=public
     networks:
       - plasimidi-network
     ports:
@@ -43,6 +38,6 @@ networks:
   plasimidi-network:
     driver: bridge
 volumes:
-  mongo-data:
+  plasmidi-data:
 
 

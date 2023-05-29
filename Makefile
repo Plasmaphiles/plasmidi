@@ -14,11 +14,11 @@ up: ## Spin up a dev suite of containers.
 
 .PHONY: generate
 generate: ## a one time use command needed to setup the db after the creation of the containers
-	docker-compose exec -ti server npx prisma generate --schema server/prisma/schema.prisma 
+	docker-compose exec -ti server prisma generate --schema server/prisma/schema.prisma 
 
 .PHONY: migrate
 migrate: ## push db changes to the db.
-	docker-compose exec -ti server npx prisma db push --schema server/prisma/schema.prisma
+	docker-compose exec -ti server prisma db push --schema server/prisma/schema.prisma
 
 .PHONY: down
 down: ## Stops up containers.
@@ -26,7 +26,7 @@ down: ## Stops up containers.
 
 .PHONY: db
 db: ## attach to the db cli
-	docker-compose exec -ti mongo mongo --host=mongo --port=27018 -u "mongoadmin" -p "secret"
+	docker-compose exec -ti plasmidi-postgres psql
 
 .PHONY: create
 create: up generate migrate ## create a local env from nothing
