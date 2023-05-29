@@ -5,8 +5,8 @@ services:
     ports:
       - "5439:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
       POSTGRES_DB: plasmidi
     networks:
       - plasimidi-network
@@ -23,10 +23,10 @@ services:
       - plasmidi-postgres
     build:
       context: .
-      dockerfile: ${DOCKER_ENVFILE_PATH:-docker/dockerfile.dev.yml}
+      dockerfile: docker/dockerfile.server.yml
     environment:
       # this is using the port 5432 since it's connecting through the docker network 
-      DATABASE_URL: postgresql://postgres:secret@plasmidi-postgres:5432/plasmidi?schema=public
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:secret@plasmidi-postgres:5432/plasmidi?schema=public}
     networks:
       - plasimidi-network
     ports:
@@ -34,6 +34,7 @@ services:
       - "3001:3001"
     volumes:
       - ./:/src
+    command: ${SERVER_COMMAND:-npm run develop}
 networks:
   plasimidi-network:
     driver: bridge
