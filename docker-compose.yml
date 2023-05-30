@@ -23,7 +23,7 @@ services:
       - plasmidi-postgres
     build:
       context: .
-      dockerfile: docker/dockerfile.server.yml
+      dockerfile: ./Dockerfile
     environment:
       # this is using the port 5432 since it's connecting through the docker network 
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:secret@plasmidi-postgres:5432/plasmidi?schema=public}
