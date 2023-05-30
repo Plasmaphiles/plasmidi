@@ -5,6 +5,9 @@ const { plasMIDI } = require("./middleware/plasMIDI");
 const { plasmaUI } = require("./middleware/plasmaUI");
 const { sendPlasmaTypes } = require("./middleware/sendPlasmaTypes");
 const users = require("./routes/users");
+const { readFile } = require("fs");
+
+const { uploadMidiFile } = require("./services/files");
 
 const PORT = process.env.PORT || 3001;
 
@@ -29,9 +32,15 @@ app.get("/api/process/:name", plasMIDI, (req, res) =>
 );
 
 // Process the MIDI file using plasmidi.py and return the result
-app.post("/api/process", upload.single("file"), plasMIDI, (req, res) =>
-  res.sendPlasMIDI(req.plasMIDI)
-);
+app.post("/api/process", upload.single("file"), plasMIDI, (req, res) => {
+  readFile(__dirname + "/" + req.file.path, (err, file) => {
+    if (err) {
+      console.log(err);
+    }
+    uploadMidiFile(file, req.file.filename);
+  });
+  res.sendPlasMIDI(req.plasMIDI);
+});
 
 app.get("/plasma/:page", plasmaUI, (req, res) =>
   res.sendPlasmaUI(req.plasmaUI)

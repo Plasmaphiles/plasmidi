@@ -27,6 +27,8 @@ services:
     environment:
       # this is using the port 5432 since it's connecting through the docker network 
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:secret@plasmidi-postgres:5432/plasmidi?schema=public}
+      SUPABASE_URL: https://cyyuipreqiukqngcclok.supabase.co
+      SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5eXVpcHJlcWl1a3FuZ2NjbG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU0NjE1MzMsImV4cCI6MjAwMTAzNzUzM30.fx5YMD-mFqsrVTeCLp-YxnWgr9iIwYckCG1tOCbIlBo
     networks:
       - plasimidi-network
     ports:
