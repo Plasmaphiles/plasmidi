@@ -22,8 +22,8 @@ class Song:
 		raise exceptions.MessageNotFound('program_change')
 
 	def __find_meta(self, type: str) -> mido.Message:
-		for this_track in self.midi.tracks:
-			for msg in this_track:
+		for track in self.midi.tracks:
+			for msg in track:
 				if msg.is_meta and msg.type == type:
 					return msg
 		raise exceptions.MetaNotFound(type)
