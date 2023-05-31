@@ -1,22 +1,4 @@
 services:
-  plasmidi-postgres:
-    container_name: plasmidi-postgres
-    image: postgres:10.19
-    ports:
-      - "5439:5432"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
-      POSTGRES_DB: plasmidi
-    networks:
-      - plasimidi-network
-    volumes:
-      - plasmidi-data:/var/lib/postgresql/data
-      #        point this towards the file you would like to load up
-      - ./build/db_dump.sql:/docker-entrypoint-initdb.d/db_dump.sql
-      - ./etc/psqlrc:/var/lib/postgresql/.psqlrc
-    restart: always
-    user: postgres
   server:
     container_name: plasmidi-server
     depends_on:
@@ -25,10 +7,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      # this is using the port 5432 since it's connecting through the docker network 
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:secret@plasmidi-postgres:5432/plasmidi?schema=public}
-      SUPABASE_URL: https://cyyuipreqiukqngcclok.supabase.co
-      SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5eXVpcHJlcWl1a3FuZ2NjbG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU0NjE1MzMsImV4cCI6MjAwMTAzNzUzM30.fx5YMD-mFqsrVTeCLp-YxnWgr9iIwYckCG1tOCbIlBo
+      - APPWRITE_KEY
+      - APPWRITE_PROJECT_ID
+      - APPWRITE_URL
     networks:
       - plasimidi-network
     ports:
