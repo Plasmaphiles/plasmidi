@@ -23,8 +23,6 @@ String.prototype.strip = function (char) {
 const CopyToClipboardButton = ({ text, label }) => {
   const [copied, setCopied] = useState(false);
 
-  console.log(text);
-
   const copyText = text => {
     try {
       // TODO: check Prod / Dev diff issue: quotes
