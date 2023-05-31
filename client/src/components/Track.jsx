@@ -1,24 +1,23 @@
 import { default as ClipboardButton } from "./CopyToClipboardButton";
 
-const titleCase = text =>
-  text
-    .split(" ")
-    .map(
-      word =>
-        word[0].toUpperCase() +
-        word
-          .substring(1)
-          .split("")
-          .map(l => l.toLowerCase())
-          .join("")
-    )
-    .join(" ");
+// eslint-disable-next-line no-extend-native
+String.prototype.map = function (map, d = "") {
+  return this.split(d).map(map).join(d);
+};
+
+// eslint-disable-next-line no-extend-native
+String.prototype.toTitleCase = function () {
+  return this.map(
+    word => word[0].toUpperCase() + word.substring(1).map(l => l.toLowerCase()),
+    " "
+  );
+};
 
 const Track = ({ track }) => (
   <div className="row align-items-center" style={{ paddingBottom: "10px" }}>
     <div className="col-3">
       <span>
-        {titleCase(track.name)} {track.num}:
+        {track.name.toTitleCase()} {track.num}:
       </span>
     </div>
     {/* <div className="col-3">
