@@ -14,7 +14,8 @@ model User {
   id         Int        @id @default(autoincrement())
   email      String     @unique
   name       String?
-  playlist   PlayList[]
+  playlists  PlayList[]
+  songs      Song[]
   updated_at DateTime   @updatedAt
   created_at DateTime   @default(now())
 
@@ -35,6 +36,8 @@ model PlayList {
 
 model Song {
   id         Int        @id @default(autoincrement())
+  user_id    Int
+  user       User?       @relation(fields: [user_id], references: [id])
   playlists  PlayList[]
   name       String
   updated_at DateTime   @updatedAt

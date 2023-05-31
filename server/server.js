@@ -9,6 +9,8 @@ const { readFile } = require("fs");
 
 const { uploadMidiFile } = require("./services/files");
 
+const { addFile, getUser } = require("./services/users");
+
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -33,11 +35,13 @@ app.get("/api/process/:name", plasMIDI, (req, res) =>
 
 // Process the MIDI file using plasmidi.py and return the result
 app.post("/api/process", upload.single("file"), plasMIDI, (req, res) => {
-  readFile(__dirname + "/" + req.file.path, (err, file) => {
+  readFile(__dirname + "/" + req.file.path, async (err, file) => {
     if (err) {
       console.log(err);
     }
-    uploadMidiFile(file, req.file.filename);
+    const response = await uploadMidiFile(file, req.file.filename);
+    const tempUser = await getUser(1);
+    const result = await addFile({ user_id: tempUser.id, name: response.data.path });
   });
   res.sendPlasMIDI(req.plasMIDI);
 });
