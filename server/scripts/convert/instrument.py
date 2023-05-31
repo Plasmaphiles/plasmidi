@@ -1,9 +1,9 @@
 __all__ = ['to_plasma']
 
 __ID_LIST = {
-	'Drum': [range(9, 17)],
-	'Bass': [range(32, 40)],
-	'Pads': [range(80, 104)],
+	'Drum': range(9, 17),
+	'Bass': range(32, 40),
+	'Pads': range(80, 104),
 	#Everything else is Keys
 }
 

@@ -17,8 +17,10 @@ class Song:
 
 	def __find_instrument(self, track: mido.MidiTrack) -> mido.Message:
 		for msg in track:
+			if not msg.is_meta and msg.channel == 9:
+				return 9
 			if msg.type == 'program_change':
-				return msg
+				return msg.program
 		raise exceptions.MessageNotFound('program_change')
 
 	def __find_meta(self, type: str) -> mido.Message:
@@ -39,11 +41,10 @@ class Song:
 			current_time = 0
 
 			try:
-				instr_id = self.__find_instrument(track).program
+				instr_id = self.__find_instrument(track)
 				instr_name = instrument.to_plasma(instr_id)
 			except exceptions.MessageNotFound:
 				instr_name = 'Keys'
-			self.instruments[track_num] = instr_name
 
 			tracks = [{
 				'name': f'{track_num}!{track.name}',
@@ -95,7 +96,10 @@ class Song:
 
 			self.total_ticks = max(self.total_ticks, current_time)
 
-			all_tracks += [i for i in tracks if len(i['notes'])]
+			these_tracks = [i for i in tracks if len(i['notes'])]
+			if len(these_tracks):
+				all_tracks += these_tracks
+				self.instruments[track_num] = instr_name
 
 		self.tracks = all_tracks
 		return self
