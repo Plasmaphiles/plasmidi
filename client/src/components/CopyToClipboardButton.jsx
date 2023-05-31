@@ -20,8 +20,10 @@ String.prototype.strip = function (char) {
   return this.trim();
 };
 
-const CopyToClipboardButton = ({ text }) => {
+const CopyToClipboardButton = ({ text, label }) => {
   const [copied, setCopied] = useState(false);
+
+  console.log(text);
 
   const copyText = text => {
     try {
@@ -34,7 +36,7 @@ const CopyToClipboardButton = ({ text }) => {
 
   return (
     <Button variant="secondary" onClick={copyText.bind(null, text)}>
-      {copied ? "Copied!" : "Copy to Clipboard"}
+      {copied ? "Copied!" : label ?? "Copy to Clipboard"}
     </Button>
   );
 };
