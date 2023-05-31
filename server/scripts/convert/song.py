@@ -2,6 +2,7 @@ import mido
 from . import exceptions
 from .note import Note
 from .output_event import OutputEvent, many_outputs
+from . import instrument
 import re
 
 class Song:
@@ -13,6 +14,14 @@ class Song:
 		self.tracks = []
 		self.triggers = []
 		self.result = []
+
+	def __find_instrument(self, track: mido.MidiTrack) -> mido.Message:
+		for msg in track:
+			if not msg.is_meta and msg.channel == 9:
+				return 9
+			if msg.type == 'program_change':
+				return msg.program
+		raise exceptions.MessageNotFound('program_change')
 
 	def __find_meta(self, type: str) -> mido.Message:
 		for track in self.midi.tracks:
@@ -27,8 +36,15 @@ class Song:
 	"""
 	def read(self, split_chords: bool = True) -> object:
 		all_tracks = []
+		self.instruments = {}
 		for track_num, track in enumerate(self.midi.tracks):
 			current_time = 0
+
+			try:
+				instr_id = self.__find_instrument(track)
+				instr_name = instrument.to_plasma(instr_id)
+			except exceptions.MessageNotFound:
+				instr_name = 'Keys'
 
 			tracks = [{
 				'name': f'{track_num}!{track.name}',
@@ -80,7 +96,10 @@ class Song:
 
 			self.total_ticks = max(self.total_ticks, current_time)
 
-			all_tracks += [i for i in tracks if len(i['notes'])]
+			these_tracks = [i for i in tracks if len(i['notes'])]
+			if len(these_tracks):
+				all_tracks += these_tracks
+				self.instruments[track_num] = instr_name
 
 		self.tracks = all_tracks
 		return self
@@ -159,7 +178,8 @@ class Song:
 		master_out = {
 			'num': -1,
 			'name': 'ALL',
-			'notes': []
+			'notes': [],
+			'instruments': [self.instruments[i] for i in self.instruments],
 		}
 		note_count = len( self.result[ next(iter(self.result.keys())) ] )
 		for i in range(note_count):
@@ -172,7 +192,8 @@ class Song:
 			out += [{
 				'num': int(num),
 				'name': re.sub(r'[^\x01-\x80]+', '', name),
-				'notes': [str(i) for i in self.result[instrument]]
+				'notes': [str(i) for i in self.result[instrument]],
+				'instruments': [self.instruments[int(num)]],
 			}]
 
 		out += [master_out]

@@ -20,6 +20,7 @@ const getMidiPath = req =>
 
 const handleMiddleware = (req, res, next) => (err, stdout) => {
   res.status(err ? 500 : 200);
+  if (err) console.error(err);
   req.plasMIDI = err
     ? "Error generating plasMIDI."
     : {

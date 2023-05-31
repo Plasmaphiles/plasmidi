@@ -6,8 +6,10 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Error404 from "./pages/Error404";
 
-rg4js("apiKey", "RFXwCYSCxlOV8C8v6cX3g");
-rg4js("enablePulse", true);
+if (process.env.NODE_ENV !== "development") {
+  rg4js("apiKey", "RFXwCYSCxlOV8C8v6cX3g");
+  rg4js("enablePulse", true);
+}
 
 const App = () => (
   <Router>
