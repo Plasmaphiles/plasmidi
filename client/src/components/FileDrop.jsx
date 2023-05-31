@@ -5,7 +5,7 @@ import { Dropzone, FileMosaic } from "@files-ui/react";
 
 import FH from "../helpers/file";
 
-const FileDrop = ({ setResponse = () => {} }) => {
+const FileDrop = ({ setResponse }) => {
   const [dropFiles, setDropFiles] = useState([]);
   const [midiFile, setMidiFile] = useState(null);
 
