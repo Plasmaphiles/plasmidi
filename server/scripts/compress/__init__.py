@@ -24,14 +24,6 @@ def compress(sequence: list) -> str:
 	chords = [len(i) for i in n1]
 	event_count = len(sequence)
 
-	#First 4 bytes of data are the number of tracks
-	result += track_count.to_bytes(4, byteorder = 'little', signed = False)
-	for chord in chords:
-		#1 byte for each track indicates the number of notes the track may have at a time
-		result += chord.to_bytes(1, byteorder = 'little', signed = False)
-	#Next 4 bytes after that are the number of 'note' events
-	result += event_count.to_bytes(4, byteorder = 'little', signed = False)
-
 	all_notes = {}
 
 	for event in sequence:
@@ -68,6 +60,15 @@ def compress(sequence: list) -> str:
 	compressed_result = bytes([len(common_groups)])
 	for i in common_groups:
 		compressed_result += bytes([len(i)]) + i
+
+	#After that, first 4 bytes of data are the number of tracks
+	compressed_result += track_count.to_bytes(4, byteorder = 'little', signed = False)
+	for chord in chords:
+		#1 byte for each track indicates the number of notes the track may have at a time
+		compressed_result += chord.to_bytes(1, byteorder = 'little', signed = False)
+	#Next 4 bytes after that are the number of 'note' events
+	compressed_result += event_count.to_bytes(4, byteorder = 'little', signed = False)
+
 	compressed_result += result
 
 	return base64.b85encode(compressed_result).decode('utf-8')

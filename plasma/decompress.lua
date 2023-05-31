@@ -233,11 +233,11 @@ function BEGIN()
 	end
 
 	--[[Track count]]
-	TRACK_COUNT = bytes2int(read(stream, 4, COMMON_GROUPS))
+	TRACK_COUNT = bytes2int(read(stream, 4))
 	--[[List of note count on each track]]
-	CHORDS = read(stream, TRACK_COUNT, COMMON_GROUPS)
+	CHORDS = read(stream, TRACK_COUNT)
 	--[[Number of 'note' events]]
-	EVENT_COUNT = bytes2int(read(stream, 4, COMMON_GROUPS))
+	EVENT_COUNT = bytes2int(read(stream, 4))
 	EVENT_START = 1
 
 	print(('<color=#D6C156>Received %dB of compressed PlasMIDI data.</color>'):format(#input_text))
