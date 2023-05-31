@@ -19,7 +19,7 @@ class Note:
 		return f'{self.overflow}: {self.tone}{self.octave}\t{self.start}-{self.stop}'
 
 	def overlaps(self, other: object) -> bool:
-		return self.start <= other.start + 10
+		return self.start <= other.start + 100
 
 	def auto_detect_overflow(self, others: list) -> None:
 		for other in reversed(others):
