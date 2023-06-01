@@ -80,15 +80,6 @@ to use the Makefile, type `make help` into a terminal to see the available comma
 
 `make up` is a useful command that spins a working version of the app up in a containerized environment
 
-# Migrations
-
-this project uses prisma as it's ORM and is currently using postgres as it's database implementation.
-
-**Note:** with postgres being a relational database, changes to the schema must be preserved as migrations. when changing the prisma.schema file, run this command
-
-```
-docker compose exec plasmidi-server prisma migrate dev --schema server/prisma/schema.prisma --name "title of changes"
-```
 
 # Limitations
 
