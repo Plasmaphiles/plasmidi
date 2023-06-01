@@ -10,6 +10,7 @@ version: '3'
 services:
   server:
     container_name: plasmidi-server
+    profiles: [ "all" ]
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -17,6 +18,9 @@ services:
       - APPWRITE_KEY
       - APPWRITE_PROJECT_ID
       - APPWRITE_URL
+      - DB_NAME
+      - SONGS_COLLECTION
+      - PLAYLISTS_COLLECTION
     networks:
       - plasmidi-server
     ports:
@@ -29,7 +33,7 @@ services:
   traefik:
     image: traefik:2.7
     container_name: appwrite-traefik
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     <<: *x-logging
     command:
       - --providers.file.directory=/storage/config
@@ -58,7 +62,7 @@ services:
     image: appwrite/appwrite:1.3.5
     container_name: appwrite
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     networks:
       - appwrite
@@ -177,7 +181,7 @@ services:
     entrypoint: realtime
     container_name: appwrite-realtime
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -219,7 +223,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-audits
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-audits
     restart: unless-stopped
     networks:
@@ -246,7 +250,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-webhooks
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-webhooks
     restart: unless-stopped
     networks:
@@ -269,7 +273,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-deletes
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-deletes
     restart: unless-stopped
     networks:
@@ -325,7 +329,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-databases
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-databases
     restart: unless-stopped
     networks:
@@ -352,7 +356,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-builds
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-builds
     restart: unless-stopped
     networks:
@@ -381,7 +385,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-certificates
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-certificates
     restart: unless-stopped
     networks:
@@ -414,7 +418,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-functions
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-functions
     restart: unless-stopped
     networks:
@@ -446,7 +450,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: executor
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-executor
     restart: unless-stopped
     stop_signal: SIGINT
@@ -505,7 +509,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-mails
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-mails
     restart: unless-stopped
     networks:
@@ -533,7 +537,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: worker-messaging
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-worker-messaging
     restart: unless-stopped
     networks:
@@ -555,7 +559,7 @@ services:
     image: appwrite/appwrite:1.3.5
     entrypoint: maintenance
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     container_name: appwrite-maintenance
     restart: unless-stopped
     networks:
@@ -588,7 +592,7 @@ services:
     entrypoint: usage
     container_name: appwrite-usage
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     networks:
       - appwrite
@@ -618,7 +622,7 @@ services:
     entrypoint: schedule
     container_name: appwrite-schedule
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     networks:
       - appwrite
@@ -635,7 +639,7 @@ services:
     image: mariadb:10.7 # fix issues when upgrading using: mysql_upgrade -u root -p
     container_name: appwrite-mariadb
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     networks:
       - appwrite
@@ -652,7 +656,7 @@ services:
     image: redis:7.0.4-alpine
     container_name: appwrite-redis
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     command: >
       redis-server --maxmemory            512mb --maxmemory-policy     allkeys-lru --maxmemory-samples    5
@@ -674,7 +678,7 @@ services:
     image: appwrite/influxdb:1.5.0
     container_name: appwrite-influxdb
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     networks:
       - appwrite
@@ -685,7 +689,7 @@ services:
     image: appwrite/telegraf:1.4.0
     container_name: appwrite-telegraf
     <<: *x-logging
-    profiles: [ "appwrite-only" ]
+    profiles: [ "appwrite-only", "all" ]
     restart: unless-stopped
     networks:
       - appwrite

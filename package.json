@@ -8,7 +8,6 @@
     "migrate": "cd server && npm run migrate",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
-    "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
     "rezip": "node client/zipPlasmidi.js && git add client/src/plasmidi.zip && echo Zip file added to git successfully.",
     "push": "git push && git push heroku main"
@@ -17,7 +16,6 @@
   "license": "ISC",
   "devDependencies": {
     "cloc": "^1.96.0-cloc",
-    "concurrently": "^5.3.0",
-    "prisma": "^4.14.1"
+    "concurrently": "^5.3.0"
   }
 }

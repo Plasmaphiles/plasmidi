@@ -14,11 +14,11 @@ migrate: ## run migration script for appwrite
 
 .PHONY: up
 up:  ## Spin up a dev suite of containers.
-	docker-compose up -d
+	docker-compose --profile all up -d
 
 .PHONY: down
 down:  ## stop running docker containers.
-	docker compose down
+	docker compose --profile all down
 
 .PHONY: appwrite
 appwrite: ## starts the appwrite containers. useful for getting started

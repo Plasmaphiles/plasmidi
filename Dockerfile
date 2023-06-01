@@ -3,7 +3,8 @@ FROM nikolaik/python-nodejs
 WORKDIR /src
 COPY . /src
 RUN npm install
-RUN npm install -g prisma
+RUN npm run build
+RUN npm run rezip
 RUN pip install -r requirements.txt
 
 
