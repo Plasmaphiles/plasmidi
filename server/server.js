@@ -4,7 +4,6 @@ const path = require("path");
 const { plasMIDI } = require("./middleware/plasMIDI");
 const { plasmaUI } = require("./middleware/plasmaUI");
 const { sendPlasmaTypes } = require("./middleware/sendPlasmaTypes");
-const { init } = require("./db/init");
 
 const PORT = process.env.PORT || 3001;
 
@@ -43,11 +42,5 @@ app.get("*", (_req, res) =>
 );
 
 app.listen(PORT, () => {
-  init.then((res) => {
-    console.log(res);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
   console.log(`Now listening on port ${PORT}`);
 });

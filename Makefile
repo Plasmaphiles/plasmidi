@@ -5,40 +5,24 @@ sh: ## Get a terminal with Bash.
 	docker-compose exec server bash
 
 .PHONY: logs
-logs: ## Tail the logs, locally.
-	docker-compose logs -f
-
-.PHONY: up
-up: ## Spin up a dev suite of containers.
-	docker-compose up -d
-
-.PHONY: generate
-generate: ## a one time use command needed to setup the db after the creation of the containers
-	docker-compose exec -ti server prisma generate --schema server/prisma/schema.prisma 
-
-.PHONY: reset
-reset: ## throws away migrations and reapplies them. useful during test make apply
-	docker-compose exec -ti server prisma migrate reset --schema server/prisma/schema.prisma
-
-.PHONY: apply
-apply: ## apply a new migration to the database. used when modiying the prisma schema locally
-	docker-compose exec -ti server prisma db push --schema server/prisma/schema.prisma
+logs: ## Tail the server logs, locally.
+	docker logs plasmidi-server -f
 
 .PHONY: migrate
-migrate: ## push db changes to the db.
-	docker-compose exec -ti server prisma migrate deploy --schema server/prisma/schema.prisma
+migrate: ## run migration script for appwrite
+	docker compose exec server npm run migrate
+
+.PHONY: up
+up:  ## Spin up a dev suite of containers.
+	docker-compose up -d
 
 .PHONY: down
-down: ## Stops up containers.
-	docker-compose down
+down:  ## stop running docker containers.
+	docker compose down
 
-.PHONY: db
-db: ## attach to the db cli
-	docker-compose exec -ti plasmidi-postgres psql plasmidi
-
-.PHONY: create
-create: up generate migrate ## create a local env from nothing
-
+.PHONY: appwrite
+appwrite: ## starts the appwrite containers. useful for getting started
+	docker compose --profile appwrite-only up -d
 
 # https://www.freecodecamp.org/news/self-documenting-makefile/
 .PHONY: help

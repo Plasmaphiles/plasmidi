@@ -50,24 +50,35 @@ On Windows, you can also pipe the output into your clipboard like so:
 python3 path/to/plasmidi.py path/to/my_file.mid 3 "DRUMS" | clip.exe
 ```
 
-## Local Server
+## Running Locally / Contributing
 
-If you want to contribute to the web part of the project, you'll need to run the server locally to test it. You'll need to have [Node.js](https://nodejs.org/) installed in order to run the server. Once you have it, enter the following commands to clone and move to the server, then install all the dependencies and launch it.
+To run the project locally, docker is strongly encouraged, but not directly required.
 
-**If you have docker:** the command `make create` will create a local enviroment
+### Wtih Docker
 
-```bash
-git clone https://github.com/ZacharyWesterman/plasmidi
-cd plasmidi
-npm install
-npm run develop
-```
+**If you have docker, you can host a local version of appwrite to faclilty development. To get set up clone the repo and follow the next steps**
+
+1. Copy .env.example and create a .env file.
+2. Run `make appwrite` to initilize the appwrite containers. This will prompt you with some setup options. all defaults should be fine
+3. Head to http://localhost and create a local appwrite account and a project
+4. Create an api key in the project. to do this I went to settings -> view api keys -> add api key. It's recommended to provide it complete access locally.
+5. Open the .env file (listed in step 1) and fill in the top variables with your projects information. (Locally you can leave APPWRITE_URL as it is. It's using a docker network to directly connect the server to appwrite)
+6. Run `make up logs migrate`. This will do the following:
+   - start your server
+   - show you the logs for your server
+   - run the migration file to initilize your project
+
+Congrats! you're up and running
+
+### Without Docker
+
+If you're not using docker, you'll want to head to https://cloud.appwrite.io/login and create an account. after creating an account, start at step 4 of the docker instruction above
 
 # Makefile
 
 to use the Makefile, type `make help` into a terminal to see the available commands
 
-`make dev` is a useful command that spins a working version of the app up in a containerized environment
+`make up` is a useful command that spins a working version of the app up in a containerized environment
 
 # Migrations
 
