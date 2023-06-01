@@ -11,4 +11,4 @@ const database = new Databases(client);
 
 const storage = new Storage(client);
 
-module.exports = { database, storage };
+module.exports = { database, storage, ID };
