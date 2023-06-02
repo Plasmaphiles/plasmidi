@@ -5,16 +5,15 @@ const Limitations = () => (
     <p>
       MIDI files should have no more than 8 tracks in order for the Jukebox to
       play them; any extra tracks will just be ignored (this is a limitation of
-      the Jukebox, not plasMIDI).
+      the Jukebox, not plasMIDI). For the same reason, each track should have no
+      more than 8 notes playing at the same time or in very quick succession;
+      it's just a limitation of the Jukebox device.
     </p>
     <p>
-      We have not mapped all the possible MIDI instruments to the limited
-      selection of Plasma instruments, though we are planning on implementing a
-      feature for this. For now, everything plays as Keys by default, and you
-      can manually change the instrument of a track by editing the "Instrument"
-      property of the Jukebox's yellow controllers. Note that changing the
-      instrument to any drum variant will likely have some atonal nonsense
-      happening on top of the song.
+      The default instrument mapping should sound good in most cases, however,
+      due to Plasma's limited set of sounds, some MIDI instruments may
+      not map well. In the end, the instruments are just a best guess, so
+      feel free to tweak them until they sound good to you.
     </p>
     <p>
       There are limited song options. We have plans to have more songs
@@ -23,10 +22,11 @@ const Limitations = () => (
       meantime, feel free to convert your own songs!
     </p>
     <p>
-      The text is very large. It may take a while to paste into Plasma, and if
-      things freeze up for a moment or two, that is to be expected. We are
-      considering a method of compressing our data. No matter what, we will
-      continue to optimize every aspect of plasMIDI.
+      For longer songs, the uncompressed note text may be very large. It may
+      take a while to paste into Plasma, and if things freeze up for a moment
+      or two, that is to be expected. To get around this, you can use the
+      compressed version. While not human-readable, it is much smaller than
+      uncompressed and pasting it will not cause the game to freeze.
     </p>
   </Section>
 );
