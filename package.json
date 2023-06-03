@@ -5,9 +5,9 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js --ignore client",
+    "migrate": "cd server && npm run migrate",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
-    "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
     "rezip": "node client/zipPlasmidi.js && git add client/src/plasmidi.zip && echo Zip file added to git successfully.",
     "push": "git push && git push heroku main"
