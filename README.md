@@ -25,7 +25,7 @@ The `plasmidi.py` script requires the [mido python module](https://mido.readthed
 python3 -m pip install mido
 ```
 
-After that, you'll need to get the python files. If you've cloned this repo, the path to plasmidi.py will be `server/scripts/plasmidi.py`. Otherwise you can download the zip file [here](https://github.com/ZacharyWesterman/plasmidi/blob/main/client/src/plasmidi.zip).
+After that, you'll need to get the python files. If you've cloned this repo, the path to plasmidi.py will be `server/scripts/plasmidi.py`. Otherwise you can download the zip file [here](https://github.com/Plasmaphiles/plasmidi/blob/main/client/src/plasmidi.zip).
 
 ```bash
 python3 path/to/plasmidi.py path/to/my_file.mid
