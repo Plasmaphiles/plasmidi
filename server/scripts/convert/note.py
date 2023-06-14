@@ -10,7 +10,7 @@ class Note:
 		self.stop = -1
 		self.overflow = 0
 		self.tone = tones[(value - 21) % len(tones)]
-		self.octave = int((value - 21 + 9) / len(tones))
+		self.octave = max(0, (value - 21 + 9) // len(tones))
 
 	def __eq__(self, other: object) -> bool:
 		return self.value == other.value
