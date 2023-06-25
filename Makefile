@@ -11,6 +11,8 @@ logs: ## Tail the server logs, locally.
 .PHONY: migrate
 migrate: ## run migration script for appwrite
 	docker compose exec server npm run migrate
+	docker compose exec server npm run migrate
+	docker compose exec server npm run migrate
 
 .PHONY: up
 up:  ## Spin up a dev suite of containers.
@@ -23,6 +25,11 @@ down:  ## stop running docker containers.
 .PHONY: appwrite
 appwrite: ## starts the appwrite containers. useful for getting started
 	docker compose --profile appwrite-only up -d
+
+.PHONY: restart
+restart: ## restarts the server
+	docker compose --profile plasmidi-server down
+	docker compose --profile plasmidi-server up -d
 
 # https://www.freecodecamp.org/news/self-documenting-makefile/
 .PHONY: help

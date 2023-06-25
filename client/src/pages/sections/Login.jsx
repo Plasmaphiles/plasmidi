@@ -5,7 +5,7 @@ import FormGroup from "../../components/FormGroup";
 
 const Login = () => {
   const blankUser = {
-    username: "",
+    email: "",
     password: "",
   };
 
@@ -19,12 +19,12 @@ const Login = () => {
 
   return (
     <Section title="Login" form={true}>
-      <FormGroup action="Login" title="Username">
+      <FormGroup action="Login" title="Email">
         <Form.Control
-          type="username"
-          placeholder="username"
-          value={user.username}
-          onChange={e => setUser({ ...user, username: e.target.value })}
+          type="email"
+          placeholder="email"
+          value={user.email}
+          onChange={e => setUser({ ...user, email: e.target.value })}
         />
       </FormGroup>
       <FormGroup action="Login" title="Password">

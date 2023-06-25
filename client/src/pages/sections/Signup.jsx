@@ -2,15 +2,20 @@ import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import Section from "../../components/Section";
 import FormGroup from "../../components/FormGroup";
+import useAuth from "../../hooks/useAuth";
 
 const Signup = () => {
+  const { createAccount, loggedInUser } = useAuth();
+
   const blankUser = {
     username: "",
+    email: "",
     password: "",
     confirm: "",
   };
 
   const [user, setUser] = useState({ ...blankUser });
+  console.log({ state: user, loggedInUser });
 
   const handleSignup = () => {
     console.table(user);
@@ -19,6 +24,8 @@ const Signup = () => {
       return alert("Password and Confirmation do not match.");
 
     setUser({ ...blankUser });
+
+    createAccount(user.email, user.password, user.username);
   };
 
   return (
@@ -29,6 +36,14 @@ const Signup = () => {
           placeholder="username"
           value={user.username}
           onChange={e => setUser({ ...user, username: e.target.value })}
+        />
+      </FormGroup>
+      <FormGroup action="Signup" title="Email">
+        <Form.Control
+          type="email"
+          placeholder="email"
+          value={user.email}
+          onChange={e => setUser({ ...user, email: e.target.value })}
         />
       </FormGroup>
       <FormGroup action="Signup" title="Password">
