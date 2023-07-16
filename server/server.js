@@ -32,6 +32,11 @@ app.post("/api/process", upload.single("file"), plasMIDI, (req, res) =>
   res.sendPlasMIDI(req.plasMIDI)
 );
 
+app.post("/api/test", (req, res) => {
+  console.log(req.body);
+  res.send(JSON.stringify(req.body));
+});
+
 app.get("/plasma/:page", plasmaUI, (req, res) =>
   res.sendPlasmaUI(req.plasmaUI)
 );
