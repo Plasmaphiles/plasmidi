@@ -8,7 +8,10 @@ import re
 class Song:
 	def __init__(self, midi: mido.MidiFile):
 		self.midi = midi
-		self.tempo = self.__find_meta('set_tempo').tempo
+		try:
+			self.tempo = self.__find_meta('set_tempo').tempo
+		except exceptions.MetaNotFound:
+			self.tempo = 1000
 		self.ticks_per_beat = self.midi.ticks_per_beat
 		self.total_ticks = 0
 		self.tracks = []
@@ -17,8 +20,12 @@ class Song:
 
 	def __find_instrument(self, track: mido.MidiTrack) -> mido.Message:
 		for msg in track:
-			if not msg.is_meta and msg.channel == 9:
-				return 9
+			try:
+				if not msg.is_meta and msg.channel == 9:
+					return 9
+			except AttributeError:
+				pass
+
 			if msg.type == 'program_change':
 				return msg.program
 		raise exceptions.MessageNotFound('program_change')
@@ -181,7 +188,12 @@ class Song:
 			'notes': [],
 			'instruments': [self.instruments[i] for i in self.instruments],
 		}
-		note_count = len( self.result[ next(iter(self.result.keys())) ] )
+
+		try:
+			note_count = len( self.result[ next(iter(self.result.keys())) ] )
+		except StopIteration:
+			note_count = 0
+
 		for i in range(note_count):
 			master_out['notes'] += [ many_outputs([self.result[instrument][i] for instrument in self.result]) ]
 

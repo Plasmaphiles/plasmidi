@@ -18,7 +18,10 @@ def serialize_chord(chord: str) -> bytes:
 def compress(sequence: list) -> str:
 	result = bytes()
 
-	n1 = [i.split('+') for i in sequence[0].split('|')[0].split('&')]
+	if len(sequence):
+		n1 = [i.split('+') for i in sequence[0].split('|')[0].split('&')]
+	else:
+		n1 = []
 
 	track_count = len(n1)
 	chords = [len(i) for i in n1]
