@@ -53,8 +53,9 @@ class Song:
 			except exceptions.MessageNotFound:
 				instr_name = 'Keys'
 
+			name = track.name if track.name != '' else 'UNDEF'
 			tracks = [{
-				'name': f'{track_num}!{track.name}',
+				'name': f'{track_num}!{name}',
 				'overflow': False,
 				'notes': [],
 			}]
@@ -75,8 +76,9 @@ class Song:
 
 							#Break out any chords into separate tracks
 							while len(tracks) < orig_note.overflow + 1:
+								name = track.name if track.name != '' else 'UNDEF'
 								tracks += [{
-									'name': f'{track_num}!{track.name}',
+									'name': f'{track_num}!{name}',
 									'overflow': True,
 									'notes': [],
 								}]
@@ -94,8 +96,9 @@ class Song:
 			for note in open_notes:
 				#Break out any chords into separate tracks
 				while len(tracks) < note.overflow + 1:
+					name = track.name if track.name != '' else 'UNDEF'
 					tracks += [{
-						'name': f'{track_num}!{track.name}',
+						'name': f'{track_num}!{name}',
 						'overflow': True,
 						'notes': [],
 					}]
